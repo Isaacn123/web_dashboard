@@ -30,11 +30,8 @@ services:
    db:
     image: mysql:8.0
     restart: always
-    environment:
-      MYSQL_DATABASE: offthebench_db
-      MYSQL_USER: admin
-      MYSQL_PASSWORD: Bench@123!
-      MYSQL_ROOT_PASSWORD: Bench@123!
+    env_file:
+      - .env
     ports:
       - "3307:3306"
     volumes:
