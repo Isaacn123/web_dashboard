@@ -1,0 +1,45 @@
+services:
+   frontend:
+        build:
+            context: ./frontend
+            dockerfile: Dockerfile
+        working_dir: /frontend
+        ports:
+            - "3000:3000"
+        volumes:
+            - ./frontend:/frontend  # ✅ Matches your WORKDIR
+            - /frontend/node_modules
+
+
+        # docker-compose up -d
+
+   backend:
+        build:
+          context: ./webadmin
+          dockerfile: Dockerfile
+        # docker-compose up -d
+        ports:
+          - "8000:8000"
+        volumes:
+          - ./webadmin:/webadmin  # ✅ Matches your WORKDIR
+
+        depends_on:
+          - db
+        command: gunicorn mysite.wsgi:application --bind 0.0.0.0:8000
+
+   db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: offthebench_db
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: Bench@123!
+      MYSQL_ROOT_PASSWORD: Bench@123!
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
+   
