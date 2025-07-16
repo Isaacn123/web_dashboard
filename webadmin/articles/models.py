@@ -9,6 +9,7 @@ class Article(models.Model):
     content = models.TextField()
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     author_name = models.CharField(max_length=100, blank=True, null=True)
+    date = models.CharField(max_length=100, blank=True, null=True)  # User-selected date (e.g., 'May 20, 2025')
     image_url = models.URLField(max_length=500, blank=True, null=True, help_text="ImgBB image URL")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
