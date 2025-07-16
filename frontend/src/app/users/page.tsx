@@ -106,7 +106,7 @@ export default function UsersPage() {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/users/');
+      const response = await fetch('http://45.56.120.65:8000/api/users/');
       if (response.ok) {
         const data = await response.json();
         const usersData = data.results || data;
@@ -157,7 +157,7 @@ export default function UsersPage() {
 
   const fetchRoles = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/roles/');
+      const response = await fetch('http://45.56.120.65:8000/api/roles/');
       if (response.ok) {
         const data = await response.json();
         setRoles(data.results || data);
@@ -169,7 +169,8 @@ export default function UsersPage() {
 
   const fetchProfiles = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/profiles/');
+      // localhost
+      const response = await fetch('http://45.56.120.65:8000/api/profiles/');
       if (response.ok) {
         const data = await response.json();
         setProfiles(data.results || data);
@@ -200,7 +201,8 @@ export default function UsersPage() {
   const handleDelete = async (userId: number) => {
     if (window.confirm('Are you sure you want to delete this user?')) {
       try {
-        const response = await fetch(`http://localhost:8000/api/users/${userId}/`, {
+        // localhost
+        const response = await fetch(`http://45.56.120.65:8000/api/users/${userId}/`, {
           method: 'DELETE',
         });
         if (response.ok) {
@@ -216,8 +218,8 @@ export default function UsersPage() {
     try {
       const user = users.find(u => u.id === userId);
       if (!user) return;
-
-      const response = await fetch(`http://localhost:8000/api/users/${userId}/`, {
+ //localhost
+      const response = await fetch(`http://45.56.120.65:8000/api/users/${userId}/`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

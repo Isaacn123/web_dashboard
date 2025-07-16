@@ -66,7 +66,8 @@ export default function RolesPage() {
   const fetchRoles = useCallback(async (url?: string) => {
     setLoading(true);
     try {
-      const endpoint = url || `http://localhost:8000/api/roles/?page=${page}`;
+      
+      const endpoint = url || `http://45.56.120.65:8000/api/roles/?page=${page}`;
       const response = await fetch(endpoint);
       if (response.ok) {
         const data = await response.json();

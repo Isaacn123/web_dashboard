@@ -86,7 +86,7 @@ export default function AdminDashboard() {
 
   const fetchArticles = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/articles/');
+      const response = await fetch('http://45.56.120.65:8000/api/articles/');
       if (response.ok) {
         const data = await response.json();
         const articlesData = data.results || data;
@@ -125,7 +125,7 @@ export default function AdminDashboard() {
     
     setDeleteLoading(true);
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/articles/${articleToDelete.id}/`, {
+      const response = await fetch(`http://45.56.120.65:8000/api/articles/${articleToDelete.id}/`, {
         method: 'DELETE',
       });
       

@@ -109,7 +109,8 @@ const formattedData = {
   };
     try {
       console.log('Formatted data:', formattedData);
-      const response = await fetch('http://localhost:8000/api/articles/', {
+      // const response = await fetch('http://localhost:8000/api/articles/', {45.56.120.65
+      const response = await fetch('http://45.56.120.65:8000/api/articles/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

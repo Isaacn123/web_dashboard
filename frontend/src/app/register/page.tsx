@@ -42,7 +42,7 @@ export default function RegisterPage() {
     // Fetch available roles
     const fetchRoles = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/roles/');
+        const response = await fetch('http://45.56.120.65:8000/api/roles/');
         if (response.ok) {
           const data = await response.json();
           setRoles(data.results || data);
@@ -92,7 +92,7 @@ export default function RegisterPage() {
     }
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/auth/register/', {
+      const response = await fetch('http://45.56.120.65:8000/api/auth/register/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
