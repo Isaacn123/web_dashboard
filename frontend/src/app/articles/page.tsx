@@ -85,7 +85,7 @@ export default function ArticlesPage() {
 
   const fetchArticles = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/articles/');
+      const response = await fetch('http://45.56.120.65:8000/api/articles/');
       if (response.ok) {
         const data = await response.json();
         const articlesData = data.results || data;
@@ -120,7 +120,7 @@ export default function ArticlesPage() {
     
     setDeleteLoading(true);
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/articles/${articleToDelete.id}/`, {
+      const response = await fetch(`http://45.56.120.65:8000/api/articles/${articleToDelete.id}/`, {
         method: 'DELETE',
       });
       
@@ -150,7 +150,7 @@ export default function ArticlesPage() {
       const article = articles.find(a => a.id === articleId);
       if (!article) return;
 
-      const response = await fetch(`http://127.0.0.1:8000/api/articles/${articleId}/`, {
+      const response = await fetch(`http://45.56.120.65:8000/api/articles/${articleId}/`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

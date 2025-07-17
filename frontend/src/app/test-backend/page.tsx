@@ -12,7 +12,7 @@ export default function TestBackendPage() {
 
     try {
       // Test 1: Basic connectivity
-      const response = await fetch('http://127.0.0.1:8000/api/articles/', {
+      const response = await fetch('http://45.56.120.65:8000/api/articles/', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

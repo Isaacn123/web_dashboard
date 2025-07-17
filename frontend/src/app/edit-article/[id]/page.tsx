@@ -58,7 +58,7 @@ export default function EditArticlePage() {
   const IMGBB_API_KEY = process.env.NEXT_PUBLIC_IMGBB_API_KEY;
   const fetchArticle = useCallback(async () => {
     try {
-      // const response = await fetch(`http://127.0.0.1:8000/api/articles/${articleId}/`);
+      // 127.0.0.1;
        const response = await fetch(`http://45.56.120.65:8000/api/articles/${articleId}/`);
       if (response.ok) {
         const articleData = await response.json();
@@ -156,7 +156,7 @@ export default function EditArticlePage() {
     setSuccess('');
 
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/articles/${articleId}/`, {
+      const response = await fetch(`http://45.56.120.65:8000/api/articles/${articleId}/`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
