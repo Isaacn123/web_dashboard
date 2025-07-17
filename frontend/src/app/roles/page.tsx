@@ -98,7 +98,7 @@ export default function RolesPage() {
 
   const fetchProfiles = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/profiles/');
+      const response = await fetch('http://45.56.120.65:8000/api/profiles/');
       if (response.ok) {
         const data = await response.json();
         setProfiles(data.results || data);
@@ -110,7 +110,7 @@ export default function RolesPage() {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/users/');
+      const response = await fetch('http://45.56.120.65:8000/api/users/');
       if (response.ok) {
         const data = await response.json();
         setUsers(data.results || data);
@@ -127,7 +127,7 @@ export default function RolesPage() {
     const name = formData.get("name") as string;
     const description = formData.get("description") as string;
     try {
-      const response = await fetch("http://localhost:8000/api/roles/", {
+      const response = await fetch("http://45.56.120.65:8000/api/roles/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, description }),
@@ -149,7 +149,7 @@ export default function RolesPage() {
     const name = formData.get("name") as string;
     const description = formData.get("description") as string;
     try {
-      const response = await fetch(`http://localhost:8000/api/roles/${editRole.id}/`, {
+      const response = await fetch(`http://45.56.120.65:8000/api/roles/${editRole.id}/`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, description }),
@@ -167,7 +167,7 @@ export default function RolesPage() {
   const handleDeleteRole = async (roleId: number) => {
     if (!window.confirm("Are you sure you want to delete this role?")) return;
     try {
-      const response = await fetch(`http://localhost:8000/api/roles/${roleId}/`, {
+      const response = await fetch(`http://45.56.120.65:8000/api/roles/${roleId}/`, {
         method: "DELETE",
       });
       if (!response.ok) throw new Error("Failed to delete role");

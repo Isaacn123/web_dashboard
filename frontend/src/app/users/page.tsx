@@ -169,7 +169,7 @@ export default function UsersPage() {
 
   const fetchProfiles = async () => {
     try {
-      // localhost
+      // 45.56.120.65
       const response = await fetch('http://45.56.120.65:8000/api/profiles/');
       if (response.ok) {
         const data = await response.json();
@@ -201,7 +201,7 @@ export default function UsersPage() {
   const handleDelete = async (userId: number) => {
     if (window.confirm('Are you sure you want to delete this user?')) {
       try {
-        // localhost
+        // 45.56.120.65
         const response = await fetch(`http://45.56.120.65:8000/api/users/${userId}/`, {
           method: 'DELETE',
         });
@@ -218,7 +218,7 @@ export default function UsersPage() {
     try {
       const user = users.find(u => u.id === userId);
       if (!user) return;
- //localhost
+ //45.56.120.65
       const response = await fetch(`http://45.56.120.65:8000/api/users/${userId}/`, {
         method: 'PATCH',
         headers: {
@@ -263,7 +263,7 @@ export default function UsersPage() {
     const last_name = formData.get('last_name') as string;
     const is_active = formData.get('is_active') === 'on';
     // 1. Update user
-    const userRes = await fetch(`http://localhost:8000/api/users/${editUser.id}/`, {
+    const userRes = await fetch(`http://45.56.120.65:8000/api/users/${editUser.id}/`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, email, first_name, last_name, is_active })
@@ -271,7 +271,7 @@ export default function UsersPage() {
     if (!userRes.ok) return alert('Failed to update user');
     // 2. Update role/profile
     if (editProfile && editRoleId) {
-      const profileRes = await fetch(`http://localhost:8000/api/profiles/${editProfile.id}/`, {
+      const profileRes = await fetch(`http://45.56.120.65:8000/api/profiles/${editProfile.id}/`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ role_id: editRoleId })
@@ -666,7 +666,7 @@ export default function UsersPage() {
                     const last_name = formData.get('last_name') as string;
                     if (!selectedRoleId) return alert('Please select a role');
                     // 1. Create user
-                    const userRes = await fetch('http://localhost:8000/api/users/', {
+                    const userRes = await fetch('http://45.56.120.65:8000/api/users/', {
                       method: 'POST',
                       headers: { 'Content-Type': 'application/json' },
                       body: JSON.stringify({ username, email, password, first_name, last_name })
@@ -674,7 +674,7 @@ export default function UsersPage() {
                     if (!userRes.ok) return alert('Failed to create user');
                     const user = await userRes.json();
                     // 2. Assign role
-                    const profileRes = await fetch('http://localhost:8000/api/profiles/', {
+                    const profileRes = await fetch('http://45.56.120.65:8000/api/profiles/', {
                       method: 'POST',
                       headers: { 'Content-Type': 'application/json' },
                       body: JSON.stringify({ user_id: user.id, role_id: selectedRoleId })

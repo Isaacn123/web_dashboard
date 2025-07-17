@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-r-@o&k7^v2@@agj=5=k^@@+!wgi5sm=a&@-z$q@t!k1v5@*%!q
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0','127.0.0.1','localhost','45.56.120.65']
+ALLOWED_HOSTS = ['0.0.0.0','127.0.0.1','45.56.120.65','45.56.120.65']
 
 
 # Application definition
@@ -84,7 +84,7 @@ DATABASES = {
         # 'NAME': 'website_dashboard',
         # 'USER': 'root',
         # 'PASSWORD': '',
-        # 'HOST': 'localhost',
+        # 'HOST': '45.56.120.65',
         # 'PORT': '3306',
         'NAME': os.environ['MYSQL_DATABASE'],
         'USER': os.environ['MYSQL_USER'],
@@ -184,7 +184,7 @@ SIMPLE_JWT = {
 
 # CORS settings
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
+    "http://45.56.120.65:3000",
     "http://127.0.0.1:3000",
     "http://45.56.120.65:3000",
     "http://45.56.120.65:8000",
