@@ -2,6 +2,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
+from django.urls import reverse
 
 
 class Article(models.Model):
@@ -29,6 +30,11 @@ class Article(models.Model):
     
     def __str__(self):
         return self.title
+    
+    def get_absolute_url(self):
+        # If you use slug in your URL pattern:
+        return reverse('article-detail', kwargs={'slug': self.slug})
+        # If you use id, use: return reverse('article-detail', kwargs={'pk': self.pk})
     
     class Meta:
         ordering = ['-created_at']
