@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, useParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -19,7 +19,6 @@ interface Article {
 }
 
 export default function ArticleDetailPage() {
-  const router = useRouter();
   const params = useParams();
   const { slug } = params as { slug: string };
   const [article, setArticle] = useState<Article | null>(null);
