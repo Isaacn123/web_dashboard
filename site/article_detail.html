@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Article Details</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="fonts/icomoon/style.css">
+  <link rel="stylesheet" href="css/bootstrap/bootstrap.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="site-wrap">
+    <!-- Header (copy from index.html) -->
+    <header class="site-navbar py-4" role="banner">
+      <div class="container">
+        <div class="d-flex align-items-center">
+          <div class="site-logo">
+            <a href="index.html">
+              <img src="images/logo_small.png" alt="Logo">
+            </a>
+          </div>
+          <div class="ml-auto">
+            <nav class="site-navigation position-relative text-right" role="navigation">
+              <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="#" class="nav-link">Matches</a></li>
+                <li><a href="#" class="nav-link">Players</a></li>
+                <li><a href="#" class="nav-link">Contact</a></li>
+              </ul>
+            </nav>
+            <a href="#" class="d-inline-block d-lg-none site-menu-toggle js-menu-toggle text-black float-right text-white">
+              <span class="icon-menu h3 text-white"></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Article Details Section -->
+    <div class="container site-section" id="article-details">
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          <div id="article-content" class="bg-white p-4 rounded shadow-sm">
+            <!-- Article details will be loaded here -->
+            <h1 id="article-title" class="mb-3"></h1>
+            <p class="text-muted" id="article-meta"></p>
+            <img id="article-image" src="" alt="" class="img-fluid mb-4" style="max-height:400px;object-fit:cover;">
+            <div id="article-body"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer (copy from index.html) -->
+    <footer class="footer-section">
+      <div class="container">
+        <!-- ... (footer content as in index.html) ... -->
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Get the article slug or id from the URL query string
+    function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+
+    // Example: article_detail.html?slug=empower-through-basketball
+    const slug = getQueryParam('slug');
+    if (slug) {
+      fetch(`http://45.56.120.65:8000/articles/${slug}/`)
+        .then(response => response.json())
+        .then(article => {
+          document.getElementById('article-title').textContent = article.title;
+          document.getElementById('article-meta').textContent =
+            `By ${article.author_name || 'Unknown'} | ${article.date || ''}`;
+          document.getElementById('article-image').src = article.image_url || 'images/default.png';
+          document.getElementById('article-image').alt = article.title;
+          document.getElementById('article-body').innerHTML = article.content;
+        })
+        .catch(err => {
+          document.getElementById('article-content').innerHTML = '<p class="text-danger">Article not found.</p>';
+        });
+    } else {
+      document.getElementById('article-content').innerHTML = '<p class="text-danger">No article specified.</p>';
+    }
+  </script>
+</body>
+</html>
