@@ -95,13 +95,7 @@
 
       <div class="row justify-content-center">
         <div class="col-lg-7 text-center">
-          <div class="custom-pagination">
-            <a href="#">1</a>
-            <span>2</span>
-            <a href="#">3</a>
-            <a href="#">4</a>
-            <a href="#">5</a>
-          </div>
+          <div class="custom-pagination"></div>
         </div>
       </div>
     </div>
@@ -188,45 +182,55 @@
   <!-- .site-wrap -->
 <!-- 45.56.120.65 -->
   <script>
-   fetch("http://45.56.120.65:8000/api/public-articles/")
-  .then(response => response.json())
-  .then(data => {
-    console.log(data.results);
-    var container = document.getElementById('articles');
-    data.results.forEach(function(article) {
-      var articleElement = document.createElement('div');
-      articleElement.classList.add("col-lg-4", "mb-4");
-      var shortcontent = article.content.length > 100 ? article.content.substring(0, 100) + '...' : article.content;
-      articleElement.innerHTML = `
-          <div class="custom-media d-block">
-             <div class="img mb-4">
-              <a href="#"><img src="${article.image_url}" alt="Image" class="img-fluid"></a>
-            </div>
-        <div class="text">
-              <span class="meta">${article.date  ? article.date : 'No date provided'}</span>
-              <h3 class="mb-4"><a href="#">${article.title}</a></h3>
-              <p>${shortcontent}</p>
-              <p><a href="article_detail.html?slug=${article.slug}">Read more</a></p>
-            </div>
-         </div>
-      `;
-      container.appendChild(articleElement);
-    });
-    
-  })
-    .catch(error => console.error(error));
+   let currentPage = 1;
+const pageSize = 6;
 
-  // Fetch and inject site header settings
-  fetch('http://45.56.120.65:8000/api/header-settings/')
+function loadArticles(page = 1) {
+  fetch(`http://45.56.120.65:8000/api/public-articles/?page=${page}&page_size=${pageSize}`)
     .then(response => response.json())
     .then(data => {
-      settings = data.results;
-      if (data && settings.length > 0) {
-        document.getElementById('site-title').textContent = settings[0].site_title || '';
-        document.getElementById('site-subtitle').textContent = settings[0].site_subtitle || '';
-      }
-    })
-    .catch(error => console.error('Header settings error:', error));
+      renderArticles(data.results);
+      renderPagination(data.count, page);
+    });
+}
+
+function renderArticles(articles) {
+  const container = document.getElementById('articles');
+  container.innerHTML = '';
+  articles.forEach(article => {
+    const articleElement = document.createElement('div');
+    articleElement.classList.add("col-lg-4", "mb-4");
+    var shortcontent = article.content.length > 100 ? article.content.substring(0, 100) + '...' : article.content;
+    articleElement.innerHTML = `
+      <div class="card h-100 shadow-sm">
+        <img src="${article.image_url || 'images/default.png'}" class="card-img-top" alt="${article.title}">
+        <div class="card-body">
+          <h5 class="card-title">${article.title}</h5>
+          <p class="card-text">${shortcontent}</p>
+          <a href="article_detail.html?slug=${article.slug}" class="btn btn-outline-primary btn-sm">Read More</a>
+        </div>
+      </div>
+    `;
+    container.appendChild(articleElement);
+  });
+}
+
+function renderPagination(totalCount, currentPage) {
+  const totalPages = Math.ceil(totalCount / pageSize);
+  const paginationContainer = document.querySelector('.custom-pagination');
+  paginationContainer.innerHTML = '';
+
+  for (let i = 1; i <= totalPages; i++) {
+    if (i === currentPage) {
+      paginationContainer.innerHTML += `<span>${i}</span>`;
+    } else {
+      paginationContainer.innerHTML += `<a href="#" onclick="loadArticles(${i}); return false;">${i}</a>`;
+    }
+  }
+}
+
+// Initial load
+loadArticles();
   </script>
 
   <script src="js/jquery-3.3.1.min.js"></script>

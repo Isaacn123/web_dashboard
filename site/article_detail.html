@@ -8,10 +8,21 @@
   <link rel="stylesheet" href="fonts/icomoon/style.css">
   <link rel="stylesheet" href="css/bootstrap/bootstrap.css">
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    #article-image {
+      width: 100%;
+      max-width: 800px;
+      height: auto;
+      display: block;
+      margin: 0 auto 2rem auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    }
+  </style>
 </head>
 <body>
   <div class="site-wrap">
-    <!-- Header (copy from index.html) -->
+    <!-- Header (copied from index.html) -->
     <header class="site-navbar py-4" role="banner">
       <div class="container">
         <div class="d-flex align-items-center">
@@ -40,28 +51,87 @@
     <!-- Article Details Section -->
     <div class="container site-section" id="article-details">
       <div class="row">
-        <div class="col-lg-8 mx-auto">
+        <div class="col-lg-10 mx-auto">
           <div id="article-content" class="bg-white p-4 rounded shadow-sm">
-            <!-- Article details will be loaded here -->
             <h1 id="article-title" class="mb-3"></h1>
             <p class="text-muted" id="article-meta"></p>
-            <img id="article-image" src="" alt="" class="img-fluid mb-4" style="max-height:400px;object-fit:cover;">
+            <img id="article-image" src="" alt="" class="mb-4">
             <div id="article-body"></div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Footer (copy from index.html) -->
+    <!-- Full Footer (copied from index.html) -->
     <footer class="footer-section">
       <div class="container">
-        <!-- ... (footer content as in index.html) ... -->
+        <div class="row">
+          <div class="col-lg-3">
+            <div class="widget mb-3">
+              <h3>News</h3>
+              <ul class="list-unstyled links">
+                <li><a href="#">All</a></li>
+                <li><a href="#">Club News</a></li>
+                <li><a href="#">Media Center</a></li>
+                <li><a href="#">Video</a></li>
+                <li><a href="#">RSS</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <div class="widget mb-3">
+              <h3>Programs</h3>
+              <ul class="list-unstyled links">
+                <li><a href="#">Finacial Donations</a></li>
+                <li><a href="#">Sponsorship Opportunities</a></li>
+                <li><a href="#">Spread the Word</a></li>
+                <li><a href="#">meet The Team</a></li>
+                <li><a href="#">Camps &amp; Clinics</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <div class="widget mb-3">
+              <h3>Connect</h3>
+              <ul class="list-unstyled links">
+                <li><a href="#">Basketball Programs</a></li>
+                <li><a href="#">Training</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <div class="widget mb-3">
+              <h3>Social</h3>
+              <ul class="list-unstyled links">
+                <li><a href="#">Twitter</a></li>
+                <li><a href="#">Facebook</a></li>
+                <li><a href="#">Instagram</a></li>
+                <li><a href="#">Youtube</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="row text-center">
+          <div class="col-md-12">
+            <div class=" pt-5">
+              <p>
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                Copyright &copy;
+                <script>
+                  document.write(new Date().getFullYear());
+                </script> All rights reserved | Off The Bench <i class="icon-heart"
+                  aria-hidden="true"></i> by <a href="#" target="_blank">Flits Designs Ltd</a>
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </footer>
   </div>
 
   <script>
-    // Get the article slug or id from the URL query string
+    // Get the article slug from the URL query string
     function getQueryParam(param) {
       const urlParams = new URLSearchParams(window.location.search);
       return urlParams.get(param);
