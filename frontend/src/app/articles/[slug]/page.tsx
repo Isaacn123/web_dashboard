@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 
 interface Article {
   id: number;
@@ -54,7 +55,14 @@ export default function ArticleDetailPage() {
         By {article.author_name || "Unknown"} | {article.date || article.created_at}
       </div>
       {article.image_url && (
-        <img src={article.image_url} alt={article.title} className="mb-6 rounded shadow" />
+        <Image
+          src={article.image_url}
+          alt={article.title}
+          width={800}
+          height={500}
+          className="mb-6 rounded shadow"
+          style={{ width: '100%', height: 'auto' }}
+        />
       )}
       <div className="prose" dangerouslySetInnerHTML={{ __html: article.content }} />
     </div>
