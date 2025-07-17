@@ -220,9 +220,10 @@
   fetch('http://45.56.120.65:8000/api/header-settings/')
     .then(response => response.json())
     .then(data => {
-      if (data && data.length > 0) {
-        document.getElementById('site-title').textContent = data[0].site_title || '';
-        document.getElementById('site-subtitle').textContent = data[0].site_subtitle || '';
+      settings = data.results;
+      if (data && settings.length > 0) {
+        document.getElementById('site-title').textContent = settings[0].site_title || '';
+        document.getElementById('site-subtitle').textContent = settings[0].site_subtitle || '';
       }
     })
     .catch(error => console.error('Header settings error:', error));

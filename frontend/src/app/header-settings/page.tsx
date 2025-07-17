@@ -73,14 +73,14 @@ export default function HeaderSettingsPage() {
   const fetchSettings = async () => {
     try {
       const token = localStorage.getItem("auth_token");
-      const res = await fetch("/api/header-settings/", {
+      const res = await fetch("http://45.56.120.65:8000/api/header-settings/", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       const data = await res.json();
-      if (data && data.length > 0) {
-        setSettings(data[0]);
+      if (data && data.results && data.results.length > 0) {
+        setSettings(data.results[0]);
       }
     } catch (error) {
       console.error("Error fetching header settings:", error);
@@ -102,7 +102,7 @@ export default function HeaderSettingsPage() {
     try {
       const token = localStorage.getItem("auth_token");
       // PATCH the first (and only) settings object
-      const res = await fetch(`/api/header-settings/1/`, {
+      const res = await fetch("http://45.56.120.65:8000/api/header-settings/1/", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
