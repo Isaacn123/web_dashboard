@@ -6,5 +6,5 @@ router = DefaultRouter()
 router.register(r'header-settings', HeaderSettingsViewSet)
 
 urlpatterns = [
-    path('api/', include(router.urls)),
+    path('', include(router.urls)),
 ] 
