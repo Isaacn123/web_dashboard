@@ -19,7 +19,7 @@ class HeaderSettings(models.Model):
 
     @classmethod
     def get_active_settings(cls):
-        settings = cls.objects.first()
+        settings = cls.objects.first()  # type: ignore
         if not settings:
-            settings = cls.objects.create()
+            settings = cls.objects.create()  # type: ignore
         return settings 

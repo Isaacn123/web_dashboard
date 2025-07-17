@@ -15,6 +15,6 @@ class ArticleViewSet(viewsets.ModelViewSet):
         return article
 
 class PublicArticleViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Article.objects.filter(published=True)
+    queryset = Article.objects.filter(published=True)  # type: ignore
     serializer_class = ArticleSerializer
     permission_classes = [AllowAny]
