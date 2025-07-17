@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'articles',
     'users',
+    'site_settings',
 ]
 
 MIDDLEWARE = [
@@ -84,7 +85,7 @@ DATABASES = {
         # 'NAME': 'website_dashboard',
         # 'USER': 'root',
         # 'PASSWORD': '',
-        # 'HOST': '45.56.120.65',
+        # 'HOST': 'localhost',
         # 'PORT': '3306',
         'NAME': os.environ['MYSQL_DATABASE'],
         'USER': os.environ['MYSQL_USER'],

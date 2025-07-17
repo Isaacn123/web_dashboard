@@ -10,5 +10,11 @@ class ArticleViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]  # Temporarily allow all access for testing
     
     def perform_create(self, serializer):
-        # For now, create without author to test the endpoint
-        serializer.save()
+        article = serializer.save()
+        # The model's save() will set the URL
+        return article
+
+class PublicArticleViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Article.objects.filter(published=True)
+    serializer_class = ArticleSerializer
+    permission_classes = [AllowAny]

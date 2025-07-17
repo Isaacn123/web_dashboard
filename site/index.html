@@ -76,8 +76,8 @@
       <div class="container">
         <div class="row align-items-center">
           <div class="col-lg-5 mx-auto text-center">
-            <h1 class="text-white">Empower Through Basketball</h1>
-            <p>An inclusive basketball academy dedicated to empowering youth through structured training programs. Designed to foster skill development, teamwork, and confidence for all children, including those with special needs.</p>
+            <h1 class="text-white" id="site-title">Loading...</h1>
+            <p id="site-subtitle">&nbsp;</p>
           </div>
         </div>
       </div>
@@ -188,7 +188,7 @@
   <!-- .site-wrap -->
 <!-- 45.56.120.65 -->
   <script>
-   fetch("http://45.56.120.65:8000/api/articles/")
+   fetch("http://45.56.120.65:8000/api/public-articles/")
   .then(response => response.json())
   .then(data => {
     console.log(data.results);
@@ -215,6 +215,17 @@
     
   })
     .catch(error => console.error(error));
+
+  // Fetch and inject site header settings
+  fetch('http://45.56.120.65:8000/api/header-settings/')
+    .then(response => response.json())
+    .then(data => {
+      if (data && data.length > 0) {
+        document.getElementById('site-title').textContent = data[0].site_title || '';
+        document.getElementById('site-subtitle').textContent = data[0].site_subtitle || '';
+      }
+    })
+    .catch(error => console.error('Header settings error:', error));
   </script>
 
   <script src="js/jquery-3.3.1.min.js"></script>

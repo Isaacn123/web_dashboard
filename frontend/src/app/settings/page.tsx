@@ -191,6 +191,12 @@ export default function SettingsPage() {
                   <span>Settings</span>
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link href="/header-settings" className="nav-link">
+                  <GlobeAltIcon className="nav-icon" />
+                  <span>Header Settings</span>
+                </Link>
+              </li>
             </ul>
           </div>
         </nav>
