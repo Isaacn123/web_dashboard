@@ -275,7 +275,13 @@ export default function AdminDashboard() {
                   
                   {/* User Dropdown */}
                   <div className={`user-dropdown ${userDropdownOpen ? 'open' : ''}`}>
-                    <button className="dropdown-item">
+                    <button
+                      className="dropdown-item"
+                      onClick={() => {
+                        setUserDropdownOpen(false); // close dropdown if needed
+                        router.push('/profile');
+                      }}
+                    >
                       <UserIcon className="nav-icon" />
                       Profile
                     </button>

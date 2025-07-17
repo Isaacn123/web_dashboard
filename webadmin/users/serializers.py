@@ -44,14 +44,24 @@ class UserSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         # Handle password update
         password = validated_data.pop('password', None)
-        
-        # Update other fields
+        profile_data = validated_data.pop('profile', None)
+        profile_id = validated_data.pop('profile_id', None)
+
+        # Update user fields
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
-        
+
         # Update password if provided
         if password:
             instance.set_password(password)
-        
+
         instance.save()
+
+        # Update UserProfile role if provided
+        if profile_id:
+            profile = instance.profile
+            if 'role' in profile_id:
+                profile.role = profile_id['role']
+                profile.save()
+
         return instance 
