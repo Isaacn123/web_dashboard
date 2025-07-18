@@ -13,7 +13,9 @@
     "autoprefixer": "^10.4.21",
     "next": "15.3.5",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "@ckeditor/ckeditor5-react": "^5.1.0",
+    "@ckeditor/ckeditor5-build-classic": "^39.0.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

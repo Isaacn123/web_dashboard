@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '../contexts/AuthContext';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { 
   CheckIcon,
   DocumentTextIcon, 
@@ -140,6 +142,40 @@ const formattedData = {
       [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
     }));
   };
+
+  function MyCustomUploadAdapterPlugin(editor: any) {
+    editor.plugins.get('FileRepository').createUploadAdapter = (loader: any) => {
+      return new MyUploadAdapter(loader);
+    };
+  }
+
+  class MyUploadAdapter {
+    loader: any;
+    constructor(loader: any) {
+      this.loader = loader;
+    }
+
+    async upload() {
+      const file = await this.loader.file;
+      const formData = new FormData();
+      formData.append('image', file);
+      formData.append('key', process.env.NEXT_PUBLIC_IMGBB_API_KEY as string);
+
+      const response = await fetch('https://api.imgbb.com/1/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) throw new Error('Image upload failed');
+      const data = await response.json();
+      // CKEditor expects an object with a 'default' property containing the image URL
+      return { default: data.data.url };
+    }
+
+    abort() {
+      // Optional: handle abort
+    }
+  }
 
   // Show loading screen while checking authentication
   if (authChecking) {
@@ -416,29 +452,24 @@ const formattedData = {
                     Article Content
                   </label>
                   <div style={{ position: 'relative' }}>
-                    <textarea
-                      name="content"
-                      id="content"
-                      rows={20}
-                      value={formData.content}
-                      onChange={handleChange}
-                      required
-                      style={{
-                        width: '100%',
-                        padding: '1rem',
-                        border: '1px solid #d1d5db',
-                        borderRadius: '0.375rem',
-                        fontSize: '0.875rem',
-                        outline: 'none',
-                        resize: 'none',
-                        transition: 'border-color 0.2s'
+                    <CKEditor
+                      editor={ClassicEditor}
+                      data={formData.content}
+                      onChange={(event, editor) => {
+                        const data = editor.getData();
+                        setFormData(prev => ({ ...prev, content: data }));
                       }}
-                      placeholder="Write your article content here. You can use markdown formatting..."
-                      onFocus={(e) => e.target.style.borderColor = '#2563eb'}
-                      onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
+                      config={{
+                        placeholder: 'Write your article content here. You can use rich text formatting...',
+                        toolbar: [
+                          'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|',
+                          'outdent', 'indent', '|', 'blockQuote', 'insertTable', 'imageUpload', 'undo', 'redo'
+                        ],
+                        extraPlugins: [MyCustomUploadAdapterPlugin],
+                      }}
                     />
-                    <div style={{ position: 'absolute', bottom: '1rem', right: '1rem', fontSize: '0.75rem', color: '#9ca3af' }}>
-                      {formData.content.length} characters
+                    <div style={{ marginTop: '0.5rem', fontSize: '0.75rem', color: '#9ca3af', textAlign: 'right' }}>
+                      {formData.content.replace(/<[^>]*>/g, '').length} characters
                     </div>
                   </div>
                 </div>

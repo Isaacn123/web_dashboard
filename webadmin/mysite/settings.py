@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'articles',
     'users',
     'site_settings',
+    'teams'
 ]
 
 MIDDLEWARE = [
@@ -82,16 +83,16 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        # 'NAME': 'website_dashboard',
-        # 'USER': 'root',
-        # 'PASSWORD': '',
-        # 'HOST': 'localhost',
-        # 'PORT': '3306',
-        'NAME': os.environ['MYSQL_DATABASE'],
-        'USER': os.environ['MYSQL_USER'],
-        'PASSWORD': os.environ['MYSQL_PASSWORD'],
-        'HOST': os.environ['MYSQL_HOST'],
-        'PORT': os.environ.get('MYSQL_PORT', '3306'),
+        'NAME': 'website_dashboard',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '3306',
+        # 'NAME': os.environ['MYSQL_DATABASE'],
+        # 'USER': os.environ['MYSQL_USER'],
+        # 'PASSWORD': os.environ['MYSQL_PASSWORD'],
+        # 'HOST': os.environ['MYSQL_HOST'],
+        # 'PORT': os.environ.get('MYSQL_PORT', '3306'),
         'OPTIONS': {
             'unix_socket': '/Applications/XAMPP/xamppfiles/var/mysql/mysql.sock',
         },

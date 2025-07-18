@@ -3,11 +3,11 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
 from django.urls import reverse
-
+from ckeditor.fields import RichTextField
 
 class Article(models.Model):
     title = models.CharField(max_length=200)
-    content = models.TextField()
+    content = RichTextField()
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     author_name = models.CharField(max_length=100, blank=True, null=True)
     date = models.CharField(max_length=100, blank=True, null=True)  # User-selected date (e.g., 'May 20, 2025')
