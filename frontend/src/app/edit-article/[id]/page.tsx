@@ -270,6 +270,12 @@ export default function EditArticlePage() {
                   <span>Create Article</span>
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link href="/teams" className="nav-link">
+                  <UserGroupIcon className="nav-icon" />
+                  <span>Teams</span>
+                </Link>
+              </li>
             </ul>
           </div>
           
