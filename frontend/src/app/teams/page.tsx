@@ -368,188 +368,61 @@ export default function Teams() {
           {/* Team Members Grid */}
           <div className="table-container">
             {showCreateForm ? (
-              <div className="flex items-center justify-center min-h-[60vh] w-full">
-                <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4 shadow-lg">
-                  <h2 className="text-xl font-semibold mb-4 flex items-center">
-                    <PlusIcon className="w-5 h-5 mr-2" /> Add Team Member
+              <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+                <div className="card">
+                  <h2 className="form-title">
+                    <PlusIcon style={{height: '1rem', width:'1rem'}} className="mr-2" /> Add Team Member
                   </h2>
-                  <form onSubmit={handleSubmit} className="space-y-4">
-                    {/* Name */}
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Name *
-                      </label>
-                      <input
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        required
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      />
+                  <form onSubmit={handleSubmit}>
+                    <div className="form-group">
+                      <label className="form-label">Name *</label>
+                      <input type="text" name="name" value={formData.name} onChange={handleChange} required className="form-input" />
                     </div>
-
-                    {/* Role */}
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Role *
-                      </label>
-                      <input
-                        type="text"
-                        name="role"
-                        value={formData.role}
-                        onChange={handleChange}
-                        required
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      />
+                    <div className="form-group">
+                      <label className="form-label">Role *</label>
+                      <input type="text" name="role" value={formData.role} onChange={handleChange} required className="form-input" />
                     </div>
-
-                    {/* Photo Upload */}
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Photo
-                      </label>
-                      <div className="flex items-center space-x-2">
-                        <input
-                          type="file"
-                          accept="image/*"
-                          onChange={handleImageUpload}
-                          className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                        {imageLoading && <div className="spinner w-4 h-4"></div>}
-                      </div>
+                    <div className="form-group">
+                      <label className="form-label">Photo</label>
+                      <input type="file" accept="image/*" onChange={handleImageUpload} className="form-input" />
+                      {imageLoading && <div className="spinner" style={{ width: 16, height: 16 }}></div>}
                       {formData.photo && (
-                        <div className="mt-2 p-2 bg-green-50 border border-green-200 rounded">
-                          <div className="flex items-center space-x-2">
-                            <PhotoIcon className="w-4 h-4 text-green-600" />
-                            <span className="text-sm text-green-700">Photo uploaded!</span>
-                          </div>
-                          <div className="mt-2">
-                            <Image 
-                              src={formData.photo} 
-                              alt="Uploaded photo"
-                              width={100}
-                              height={100}
-                              className="w-20 h-20 object-cover rounded"
-                            />
-                          </div>
+                        <div style={{ marginTop: '0.5rem', padding: '0.5rem', background: '#f0fdf4', borderRadius: '0.375rem', border: '1px solid #bbf7d0' }}>
+                          <Image src={formData.photo} alt="Uploaded photo" width={100} height={100} className="w-20 h-20 object-cover rounded" />
                         </div>
                       )}
                     </div>
-
-                    {/* Email */}
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Email
-                      </label>
-                      <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      />
+                    <div className="form-group">
+                      <label className="form-label">Email</label>
+                      <input type="email" name="email" value={formData.email} onChange={handleChange} className="form-input" />
                     </div>
-
-                    {/* Phone */}
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Phone
-                      </label>
-                      <input
-                        type="tel"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      />
+                    <div className="form-group">
+                      <label className="form-label">Phone</label>
+                      <input type="tel" name="phone" value={formData.phone} onChange={handleChange} className="form-input" />
                     </div>
-
-                    {/* Social Links */}
-                    <div className="grid grid-cols-1 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Facebook URL
-                        </label>
-                        <input
-                          type="url"
-                          name="facebook"
-                          value={formData.facebook}
-                          onChange={handleChange}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Twitter URL
-                        </label>
-                        <input
-                          type="url"
-                          name="twitter"
-                          value={formData.twitter}
-                          onChange={handleChange}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          LinkedIn URL
-                        </label>
-                        <input
-                          type="url"
-                          name="linkedin"
-                          value={formData.linkedin}
-                          onChange={handleChange}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                      </div>
+                    <div className="form-group">
+                      <label className="form-label">Facebook URL</label>
+                      <input type="url" name="facebook" value={formData.facebook} onChange={handleChange} className="form-input" />
                     </div>
-
-                    {/* Order */}
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Display Order
-                      </label>
-                      <input
-                        type="number"
-                        name="order"
-                        value={formData.order}
-                        onChange={handleChange}
-                        min="0"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      />
+                    <div className="form-group">
+                      <label className="form-label">Twitter URL</label>
+                      <input type="url" name="twitter" value={formData.twitter} onChange={handleChange} className="form-input" />
                     </div>
-
-                    {/* Active Status */}
-                    <div className="flex items-center">
-                      <input
-                        type="checkbox"
-                        name="active"
-                        checked={formData.active}
-                        onChange={handleChange}
-                        className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                      />
-                      <label className="ml-2 text-sm text-gray-700">
-                        Active (visible on website)
-                      </label>
+                    <div className="form-group">
+                      <label className="form-label">LinkedIn URL</label>
+                      <input type="url" name="linkedin" value={formData.linkedin} onChange={handleChange} className="form-input" />
                     </div>
-
-                    {/* Submit Button */}
-                    <div className="flex justify-end space-x-3 pt-4">
-                      <button
-                        type="button"
-                        onClick={() => setShowCreateForm(false)}
-                        className="px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300"
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        type="submit"
-                        disabled={loading}
-                        className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
-                      >
-                        {loading ? 'Saving...' : 'Add'}
-                      </button>
+                    <div className="form-group">
+                      <label className="form-label">Display Order</label>
+                      <input type="number" name="order" value={formData.order} onChange={handleChange} min="0" className="form-input" />
+                    </div>
+                    <div className="form-group" style={{ display: 'flex', alignItems: 'center' }}>
+                      <input type="checkbox" name="active" checked={formData.active} onChange={handleChange} className="form-input" style={{ width: 18, height: 18, marginRight: 8 }} />
+                      <label className="form-label" style={{ margin: 0 }}>Active (visible on website)</label>
+                    </div>
+                    <div className="form-actions">
+                      <button type="button" onClick={() => setShowCreateForm(false)} className="btn-secondary">Cancel</button>
+                      <button type="submit" disabled={loading} className="btn-primary">{loading ? 'Saving...' : 'Add'}</button>
                     </div>
                   </form>
                 </div>
@@ -562,13 +435,13 @@ export default function Teams() {
             ) : teamMembers.length === 0 ? (
               <div className="flex items-center justify-center min-h-[60vh]">
                 <div className="text-center p-8 bg-white rounded-lg shadow-md">
-                  <UserGroupIcon style={{ width: '1rem', height: '1rem', }} className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                  <UserGroupIcon className="w-12 h-12 text-gray-400 mx-auto mb-4" />
                   <h3 className="text-lg font-medium text-gray-900 mb-2">No team members yet</h3>
                   <p className="text-gray-500 mb-4">Get started by adding your first team member.</p>
-                  <Link href="/teams/create" className="btn-primary">
+                  <button onClick={() => setShowCreateForm(true)} className="btn-primary">
                     <PlusIcon style={{ width: '1rem', height: '1rem', marginRight: '0.5rem' }} />
                     Add Team Member
-                  </Link>
+                  </button>
                 </div>
               </div>
             ) : (
