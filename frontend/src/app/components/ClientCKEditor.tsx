@@ -19,7 +19,7 @@ export default function ClientCKEditor({ value, onChange, uploadAdapter }: Props
       onReady={(editor: Editor) => {
         uploadAdapter(editor);
       }}
-      onChange={(_, editor: Editor) => {
+      onChange={(_: unknown, editor: Editor) => {
         const data = editor.getData();
         onChange(data);
       }}
