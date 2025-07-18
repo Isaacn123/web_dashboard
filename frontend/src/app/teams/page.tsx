@@ -374,7 +374,7 @@ export default function Teams() {
             ) : teamMembers.length === 0 ? (
               <div className="flex items-center justify-center min-h-[60vh]">
                 <div className="text-center p-8 bg-white rounded-lg shadow-md">
-                  <UserGroupIcon className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                  <UserGroupIcon  style={{ width: '2rem', height: '2rem', }}  className="w-12 h-12 text-gray-400 mx-auto mb-4" />
                   <h3 className="text-lg font-medium text-gray-900 mb-2">No team members yet</h3>
                   <p className="text-gray-500 mb-4">Get started by adding your first team member.</p>
                   <button
