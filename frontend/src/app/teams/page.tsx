@@ -41,7 +41,6 @@ export default function Teams() {
   const router = useRouter();
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
   const [loading, setLoading] = useState(true);
-  const [imageLoading, setImageLoading] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [authChecking, setAuthChecking] = useState(true);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -106,33 +105,6 @@ export default function Teams() {
     return data.data.url;
   };
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    if (!file.type.startsWith('image/')) {
-      alert('Please select an image file');
-      return;
-    }
-
-    if (file.size > 32 * 1024 * 1024) {
-      alert('Image size must be less than 32MB');
-      return;
-    }
-
-    setImageLoading(true);
-    try {
-      const imageUrl = await uploadImageToImgBB(file);
-      setFormData(prev => ({ ...prev, photo: imageUrl }));
-      alert('Image uploaded successfully!');
-    } catch (error) {
-      console.error('Error uploading image:', error);
-      alert('Failed to upload image. Please try again.');
-    } finally {
-      setImageLoading(false);
-    }
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -172,32 +144,6 @@ export default function Teams() {
     }
   };
 
-  const handleDelete = async (id: number) => {
-    if (!confirm('Are you sure you want to delete this team member?')) return;
-
-    try {
-      const response = await fetch(`http://45.56.120.65:8000/api/team-members/${id}/`, {
-        method: 'DELETE',
-      });
-
-      if (response.ok) {
-        fetchTeamMembers();
-        alert('Team member deleted successfully!');
-      } else {
-        alert('Failed to delete team member');
-      }
-    } catch (error) {
-      console.error('Error deleting team member:', error);
-      alert('Error deleting team member');
-    }
-  };
-
-  const handleEdit = (member: TeamMember) => {
-    setEditingMember(member);
-    setFormData(member);
-    setShowEditModal(true);
-  };
-
   const resetForm = () => {
     setFormData({
       name: '',
@@ -211,14 +157,6 @@ export default function Teams() {
       order: 0,
       active: true
     });
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value
-    }));
   };
 
   if (authChecking) {
