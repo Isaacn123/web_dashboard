@@ -143,20 +143,21 @@ const formattedData = {
     }));
   };
 
-  function MyCustomUploadAdapterPlugin(editor: any) {
-    editor.plugins.get('FileRepository').createUploadAdapter = (loader: any) => {
+  // Use 'unknown' instead of 'any' to satisfy ESLint
+  function MyCustomUploadAdapterPlugin(editor: unknown) {
+    (editor as any).plugins.get('FileRepository').createUploadAdapter = (loader: unknown) => {
       return new MyUploadAdapter(loader);
     };
   }
 
   class MyUploadAdapter {
-    loader: any;
-    constructor(loader: any) {
+    loader: unknown;
+    constructor(loader: unknown) {
       this.loader = loader;
     }
 
     async upload() {
-      const file = await this.loader.file;
+      const file = await (this.loader as any).file;
       const formData = new FormData();
       formData.append('image', file);
       formData.append('key', process.env.NEXT_PUBLIC_IMGBB_API_KEY as string);
