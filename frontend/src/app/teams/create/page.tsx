@@ -95,12 +95,12 @@ export default function CreateTeamMember() {
   };
 
   return (
-    <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', margin:'0 auto'}}>
-      <div className="table-container">
+    <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+      <div className="card">
         <h2 className="form-title">
           <PlusIcon style={{height: '1rem', width:'1rem'}} className="mr-2" /> Add Team Member
         </h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
           <div className="form-group">
             <label className="form-label">Name *</label>
             <input
@@ -218,21 +218,9 @@ export default function CreateTeamMember() {
               Active (visible on website)
             </label>
           </div>
-          <div className="form-actions">
-            <button
-              type="button"
-              onClick={() => router.push('/teams')}
-              className="btn-secondary"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              disabled={loading}
-              className="btn-primary"
-            >
-              {loading ? 'Saving...' : 'Add'}
-            </button>
+          <div className="form-actions" style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', paddingTop: '1rem', borderTop: '1px solid #e5e7eb' }}>
+            <button type="button" onClick={() => router.push('/teams')} className="btn-secondary">Cancel</button>
+            <button type="submit" disabled={loading} className="btn-primary">{loading ? 'Saving...' : 'Add'}</button>
           </div>
         </form>
       </div>

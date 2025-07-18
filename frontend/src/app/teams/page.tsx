@@ -368,64 +368,62 @@ export default function Teams() {
           {/* Team Members Grid */}
           <div className="table-container">
             {showCreateForm ? (
-              <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
-                <div className="card">
-                  <h2 className="form-title">
-                    <PlusIcon style={{height: '1rem', width:'1rem'}} className="mr-2" /> Add Team Member
+              <div style={{ maxWidth: '64rem', margin: '0 auto' }}>
+                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                  <h2 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '1.5rem', display: 'flex', alignItems: 'center' }}>
+                    <PlusIcon style={{height: '1rem', width:'1rem', marginRight: '0.5rem'}} /> Add Team Member
                   </h2>
-                  <form onSubmit={handleSubmit}>
-                    <div className="form-group">
-                      <label className="form-label">Name *</label>
-                      <input type="text" name="name" value={formData.name} onChange={handleChange} required className="form-input" />
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">Role *</label>
-                      <input type="text" name="role" value={formData.role} onChange={handleChange} required className="form-input" />
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">Photo</label>
-                      <input type="file" accept="image/*" onChange={handleImageUpload} className="form-input" />
-                      {imageLoading && <div className="spinner" style={{ width: 16, height: 16 }}></div>}
-                      {formData.photo && (
-                        <div style={{ marginTop: '0.5rem', padding: '0.5rem', background: '#f0fdf4', borderRadius: '0.375rem', border: '1px solid #bbf7d0' }}>
-                          <Image src={formData.photo} alt="Uploaded photo" width={100} height={100} className="w-20 h-20 object-cover rounded" />
-                        </div>
-                      )}
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">Email</label>
-                      <input type="email" name="email" value={formData.email} onChange={handleChange} className="form-input" />
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">Phone</label>
-                      <input type="tel" name="phone" value={formData.phone} onChange={handleChange} className="form-input" />
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">Facebook URL</label>
-                      <input type="url" name="facebook" value={formData.facebook} onChange={handleChange} className="form-input" />
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">Twitter URL</label>
-                      <input type="url" name="twitter" value={formData.twitter} onChange={handleChange} className="form-input" />
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">LinkedIn URL</label>
-                      <input type="url" name="linkedin" value={formData.linkedin} onChange={handleChange} className="form-input" />
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">Display Order</label>
-                      <input type="number" name="order" value={formData.order} onChange={handleChange} min="0" className="form-input" />
-                    </div>
-                    <div className="form-group" style={{ display: 'flex', alignItems: 'center' }}>
-                      <input type="checkbox" name="active" checked={formData.active} onChange={handleChange} className="form-input" style={{ width: 18, height: 18, marginRight: 8 }} />
-                      <label className="form-label" style={{ margin: 0 }}>Active (visible on website)</label>
-                    </div>
-                    <div className="form-actions">
-                      <button type="button" onClick={() => setShowCreateForm(false)} className="btn-secondary">Cancel</button>
-                      <button type="submit" disabled={loading} className="btn-primary">{loading ? 'Saving...' : 'Add'}</button>
-                    </div>
-                  </form>
-                </div>
+                  <div>
+                    <label className="form-label">Name *</label>
+                    <input type="text" name="name" value={formData.name} onChange={handleChange} required className="form-input" />
+                  </div>
+                  <div>
+                    <label className="form-label">Role *</label>
+                    <input type="text" name="role" value={formData.role} onChange={handleChange} required className="form-input" />
+                  </div>
+                  <div>
+                    <label className="form-label">Photo</label>
+                    <input type="file" accept="image/*" onChange={handleImageUpload} className="form-input" />
+                    {imageLoading && <div className="spinner" style={{ width: 16, height: 16 }}></div>}
+                    {formData.photo && (
+                      <div style={{ marginTop: '0.5rem', padding: '0.5rem', background: '#f0fdf4', borderRadius: '0.375rem', border: '1px solid #bbf7d0' }}>
+                        <Image src={formData.photo} alt="Uploaded photo" width={100} height={100} className="w-20 h-20 object-cover rounded" />
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    <label className="form-label">Email</label>
+                    <input type="email" name="email" value={formData.email} onChange={handleChange} className="form-input" />
+                  </div>
+                  <div>
+                    <label className="form-label">Phone</label>
+                    <input type="tel" name="phone" value={formData.phone} onChange={handleChange} className="form-input" />
+                  </div>
+                  <div>
+                    <label className="form-label">Facebook URL</label>
+                    <input type="url" name="facebook" value={formData.facebook} onChange={handleChange} className="form-input" />
+                  </div>
+                  <div>
+                    <label className="form-label">Twitter URL</label>
+                    <input type="url" name="twitter" value={formData.twitter} onChange={handleChange} className="form-input" />
+                  </div>
+                  <div>
+                    <label className="form-label">LinkedIn URL</label>
+                    <input type="url" name="linkedin" value={formData.linkedin} onChange={handleChange} className="form-input" />
+                  </div>
+                  <div>
+                    <label className="form-label">Display Order</label>
+                    <input type="number" name="order" value={formData.order} onChange={handleChange} min="0" className="form-input" />
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <input type="checkbox" name="active" checked={formData.active} onChange={handleChange} className="form-input" style={{ width: 18, height: 18, marginRight: 8 }} />
+                    <label className="form-label" style={{ margin: 0 }}>Active (visible on website)</label>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', paddingTop: '1rem', borderTop: '1px solid #e5e7eb' }}>
+                    <button type="button" onClick={() => setShowCreateForm(false)} className="btn-secondary">Cancel</button>
+                    <button type="submit" disabled={loading} className="btn-primary">{loading ? 'Saving...' : 'Add'}</button>
+                  </div>
+                </form>
               </div>
             ) : loading ? (
               <div className="flex items-center justify-center py-8">
