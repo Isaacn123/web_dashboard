@@ -465,8 +465,8 @@ const formattedData = {
                     <CKEditor
                       editor={ClassicEditor}
                       data={formData.content}
-                      onChange={(event, editor) => {
-                        const data = editor.getData();
+                      onChange={(event, editor: unknown) => {
+                        const data = (editor as { getData: () => string }).getData();
                         setFormData(prev => ({ ...prev, content: data }));
                       }}
                       config={{
