@@ -143,9 +143,17 @@ const formattedData = {
     }));
   };
 
-  // Use 'unknown' instead of 'any' to satisfy ESLint
-  function MyCustomUploadAdapterPlugin(editor: unknown) {
-    (editor as any).plugins.get('FileRepository').createUploadAdapter = (loader: unknown) => {
+  // Minimal type to avoid 'any' for editor
+  type EditorWithPlugins = {
+    plugins: {
+      get(name: string): {
+        createUploadAdapter?: (loader: unknown) => unknown;
+      };
+    };
+  };
+
+  function MyCustomUploadAdapterPlugin(editor: EditorWithPlugins) {
+    editor.plugins.get('FileRepository').createUploadAdapter = (loader: unknown) => {
       return new MyUploadAdapter(loader);
     };
   }
@@ -157,7 +165,8 @@ const formattedData = {
     }
 
     async upload() {
-      const file = await (this.loader as any).file;
+      // Type assertion for loader with file property
+      const file = await (this.loader as { file: Promise<File> }).file;
       const formData = new FormData();
       formData.append('image', file);
       formData.append('key', process.env.NEXT_PUBLIC_IMGBB_API_KEY as string);
