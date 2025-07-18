@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useAuth } from '../contexts/AuthContext';
 import { 
   CheckIcon,
@@ -389,9 +390,11 @@ export default function Teams() {
                   <div key={member.id} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
                     <div className="relative">
                       {member.photo ? (
-                        <img 
+                        <Image 
                           src={member.photo} 
                           alt={member.name}
+                          width={400}
+                          height={192}
                           className="w-full h-48 object-cover"
                         />
                       ) : (
@@ -526,6 +529,15 @@ export default function Teams() {
                     <div className="flex items-center space-x-2">
                       <PhotoIcon className="w-4 h-4 text-green-600" />
                       <span className="text-sm text-green-700">Photo uploaded!</span>
+                    </div>
+                    <div className="mt-2">
+                      <Image 
+                        src={formData.photo} 
+                        alt="Uploaded photo"
+                        width={100}
+                        height={100}
+                        className="w-20 h-20 object-cover rounded"
+                      />
                     </div>
                   </div>
                 )}
