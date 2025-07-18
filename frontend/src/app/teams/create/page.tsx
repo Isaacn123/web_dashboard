@@ -98,7 +98,7 @@ export default function CreateTeamMember() {
     <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
       <div className="card">
         <h2 className="form-title">
-          <PlusIcon style={{height: '1rem', width:'1rem'}} className="w-5 h-5 mr-2" /> Add Team Member
+          <PlusIcon style={{height: '1rem', width:'1rem'}} className="mr-2" /> Add Team Member
         </h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
@@ -125,30 +125,22 @@ export default function CreateTeamMember() {
           </div>
           <div className="form-group">
             <label className="form-label">Photo</label>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-                className="form-input"
-              />
-              {imageLoading && <div className="spinner" style={{ width: 16, height: 16 }}></div>}
-            </div>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageUpload}
+              className="form-input"
+            />
+            {imageLoading && <div className="spinner" style={{ width: 16, height: 16 }}></div>}
             {formData.photo && (
               <div style={{ marginTop: '0.5rem', padding: '0.5rem', background: '#f0fdf4', borderRadius: '0.375rem', border: '1px solid #bbf7d0' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <PhotoIcon className="w-4 h-4 text-green-600" />
-                  <span style={{ fontSize: '0.9rem', color: '#166534' }}>Photo uploaded!</span>
-                </div>
-                <div style={{ marginTop: '0.5rem' }}>
-                  <Image 
-                    src={formData.photo} 
-                    alt="Uploaded photo"
-                    width={100}
-                    height={100}
-                    className="w-20 h-20 object-cover rounded"
-                  />
-                </div>
+                <Image 
+                  src={formData.photo} 
+                  alt="Uploaded photo"
+                  width={100}
+                  height={100}
+                  className="w-20 h-20 object-cover rounded"
+                />
               </div>
             )}
           </div>
