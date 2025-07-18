@@ -234,14 +234,13 @@ export default function Teams() {
 
   return (
     <div className="dashboard-layout min-h-screen flex flex-col">
-      <aside className={`sidebar ${sidebarOpen ? 'sidebar-open' : ''}`}> {/* unchanged */}</aside>
-
+      {/* Sidebar */}
+      <aside className={`sidebar ${sidebarOpen ? 'sidebar-open' : ''}`}>{/* unchanged */}</aside>
+      {/* Main Content */}
       <div className="main-wrapper flex-1 flex flex-col">
         <header className="header"> {/* unchanged */} </header>
-
         <main className="main-content flex-1 w-full p-6">
           <div className="page-header"> {/* unchanged */} </div>
-
           <div className="table-container">
             {loading ? (
               <div className="flex items-center justify-center py-8">
@@ -274,8 +273,12 @@ export default function Teams() {
             )}
           </div>
         </main>
+        {/* Mobile overlay */}
+        {sidebarOpen && (
+          <div className="sidebar-overlay" onClick={() => setSidebarOpen(false)} />
+        )}
       </div>
-
+      {/* Add/Edit Modal - moved here to be a direct child of the page, not inside flex/grid */}
       {(showAddModal || showEditModal) && (
         <div className="fixed inset-0 z-[9999] bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4 max-h-[90vh] overflow-y-auto shadow-lg">
@@ -300,10 +303,6 @@ export default function Teams() {
             </form>
           </div>
         </div>
-      )}
-
-      {sidebarOpen && (
-        <div className="sidebar-overlay" onClick={() => setSidebarOpen(false)} />
       )}
     </div>
   );
