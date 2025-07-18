@@ -1,11 +1,14 @@
 'use client';
+
+import React from 'react';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { Editor } from '@ckeditor/ckeditor5-core'; // this provides proper typing
 
 type Props = {
   value: string;
   onChange: (data: string) => void;
-  uploadAdapter?: any;
+  uploadAdapter: (editor: Editor) => void;
 };
 
 export default function ClientCKEditor({ value, onChange, uploadAdapter }: Props) {
@@ -13,17 +16,19 @@ export default function ClientCKEditor({ value, onChange, uploadAdapter }: Props
     <CKEditor
       editor={ClassicEditor}
       data={value}
-      onChange={(_, editor: any) => {
+      onReady={(editor: Editor) => {
+        uploadAdapter(editor);
+      }}
+      onChange={(_, editor: Editor) => {
         const data = editor.getData();
         onChange(data);
       }}
       config={{
-        placeholder: 'Write your article content here...',
+        placeholder: 'Write your content...',
         toolbar: [
-          'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|',
-          'outdent', 'indent', '|', 'blockQuote', 'insertTable', 'imageUpload', 'undo', 'redo'
-        ],
-        extraPlugins: uploadAdapter ? [uploadAdapter] : [],
+          'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList',
+          '|', 'outdent', 'indent', '|', 'blockQuote', 'insertTable', 'imageUpload', 'undo', 'redo'
+        ]
       }}
     />
   );
