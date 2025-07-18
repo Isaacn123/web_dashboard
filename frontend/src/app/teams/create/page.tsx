@@ -95,8 +95,8 @@ export default function CreateTeamMember() {
   };
 
   return (
-    <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
-      <div className="card">
+    <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', margin:'0 auto'}}>
+      <div className="table-container">
         <h2 className="form-title">
           <PlusIcon style={{height: '1rem', width:'1rem'}} className="mr-2" /> Add Team Member
         </h2>
