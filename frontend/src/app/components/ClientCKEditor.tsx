@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'; // ✅ Runtime value import
-import type { Editor as ClassicEditorType } from '@ckeditor/ckeditor5-core'; // ✅ Optional for typing if needed
+// import type { Editor as ClassicEditorType } from '@ckeditor/ckeditor5-core'; // ✅ Optional for typing if needed
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 
 type Props = {
