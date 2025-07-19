@@ -528,7 +528,7 @@ export default function Teams() {
                         <Image 
                           src={member.photo} 
                           alt={member.name}
-                          width={400}
+                          width={250}
                           height={192}
                           className="w-full h-48 object-cover"
                         />
