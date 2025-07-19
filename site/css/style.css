@@ -822,14 +822,14 @@ h1, h2, h3, h4, h5,
       border-radius: 50%;
       background: #1db9ed;
       position: relative; }
-      .video-media .play-button .icon:before {
+      .video-media  .icon:before {
         content: "";
         position: absolute;
         left: -5px;
         top: -5px;
-        width: 60px;
-        height: 60px;
-        border: 2px solid #1db9ed;
+        width: 30px;
+        height: 30px;
+        border: 1px solid #1db9ed;
         border-radius: 50%; }
       .video-media .play-button .icon > span {
         position: absolute;
@@ -845,7 +845,7 @@ h1, h2, h3, h4, h5,
     .video-media .play-button .caption {
       width: 100%; }
       .video-media .play-button .caption h3 {
-        line-height: 1;
+        line-height: 0.5;
         color: #fff;
         font-weight: 700;
         font-size: 18px; }

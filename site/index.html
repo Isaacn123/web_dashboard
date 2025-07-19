@@ -27,6 +27,25 @@
 
   <link rel="stylesheet" href="css/style.css">
 
+  <style>
+    #team-carousel .item .video-media img {
+      height: 277px;
+      width: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .btn-outline-primary{
+      color: rgb(37, 134, 166) !important;
+      border-color:rgb(104, 139, 174) !important; 
+    }
+
+.btn-outline-primary:hover {
+color: #fff !important;
+background-color: rgb(37, 134, 166) !important;
+border-color:rgb(104, 139, 174) !important
+}
+  </style>
 
 
 </head>
@@ -101,12 +120,11 @@
     </div>
 
 
-
-    <div class="site-section">
+  <div class="site-section">
       <div class="container">
         <div class="row">
           <div class="col-6 title-section">
-            <h2 class="heading">Our Team</h2>
+            <h2 class="heading">Our Teams</h2>
           </div>
           <div class="col-6 text-right">
             <div class="custom-nav">
@@ -117,15 +135,12 @@
           </div>
         </div>
 
-        <div class="owl-4-slider owl-carousel" id="team-carousel">
-          <!-- Team members will be loaded here dynamically -->
+
+        <div class="owl-4-slider owl-carousel" id="team-carousel" >
         </div>
 
       </div>
     </div>
-    
-    
-
 
 
     <footer class="footer-section">
@@ -275,6 +290,7 @@ function loadTeamMembers() {
     .then(response => response.json())
     .then(data => {
       var members = data.results;
+      console.log(members)
       renderTeamMembers(members);
     })
     .catch(error => {
@@ -297,107 +313,61 @@ function loadTeamMembers() {
 }
 
 function renderTeamMembers(teamMembers) {
-  const carousel = document.getElementById('team-carousel');
-  carousel.innerHTML = '';
-  
-  // Filter only active team members and sort by order
-  const activeMembers = teamMembers[0]
-    .filter(member => member.active)
-    .sort((a, b) => a.order - b.order);
-  
-  if (activeMembers.length === 0) {
-    carousel.innerHTML = `
+  const carousel = $('#team-carousel');
+  carousel.html(''); // clear old items
+
+  // Add new items
+  teamMembers.forEach(member => {
+    carousel.append(`
       <div class="item">
         <div class="video-media">
-          <img src="images/img_1.jpg" alt="No Team Members" class="img-fluid">
-          <div class="d-flex align-items-center">
+          <img src="${member.photo || 'images/img_1.jpg'}" alt="Image" class="img-fluid">
+          <a href="#" class="d-flex play-button align-items-center" data-fancybox>
+            <span class="icon mr-2">
+              <span class="icon-plays"></span>
+            </span>
             <div class="caption">
-              <span class="meta">No team members yet</span>
-              <h3 class="m-0">Add team members in admin panel</h3>
+              <span class="meta">${member.role || ''}</span>
+              <h3 class="m-0">${member.name || ''}</h3>
             </div>
-          </div>
+          </a>
         </div>
       </div>
-    `;
-    return;
-  }
-  
-  activeMembers.forEach(member => {
-    const memberElement = document.createElement('div');
-    memberElement.className = 'item';
-    
-    // Use member photo if available, otherwise use default image
-    const imageSrc = member.photo || 'images/img_1.jpg';
-    
-    // Create social media links if available
-    let socialLinks = '';
-    if (member.facebook || member.twitter || member.linkedin) {
-      socialLinks = '<div class="social-links mt-2">';
-      if (member.facebook) {
-        socialLinks += `<a href="${member.facebook}" target="_blank" class="mr-2"><i class="icon-facebook"></i></a>`;
-      }
-      if (member.twitter) {
-        socialLinks += `<a href="${member.twitter}" target="_blank" class="mr-2"><i class="icon-twitter"></i></a>`;
-      }
-      if (member.linkedin) {
-        socialLinks += `<a href="${member.linkedin}" target="_blank"><i class="icon-linkedin"></i></a>`;
-      }
-      socialLinks += '</div>';
-    }
-    
-    memberElement.innerHTML = `
-      <div class="video-media">
-        <img src="${imageSrc}" alt="${member.name}" class="img-fluid">
-        <div class="d-flex align-items-center">
-          <div class="caption">
-            <span class="meta">${member.role}</span>
-            <h3 class="m-0">${member.name}</h3>
-            ${member.email ? `<p class="mb-1"><small>${member.email}</small></p>` : ''}
-            ${member.phone ? `<p class="mb-1"><small>${member.phone}</small></p>` : ''}
-            ${socialLinks}
-          </div>
-        </div>
-      </div>
-    `;
-    
-    carousel.appendChild(memberElement);
+    `);
   });
-  
-  // Reinitialize the carousel after adding content
-  if (typeof $ !== 'undefined' && $.fn.owlCarousel) {
-    $('#team-carousel').owlCarousel({
-      items: 4,
-      loop: true,
-      margin: 20,
-      autoplay: true,
-      autoplayTimeout: 5000,
-      autoplayHoverPause: true,
-      nav: true,
-      navText: [
-        '<span class="icon-keyboard_arrow_left"></span>',
-        '<span class="icon-keyboard_arrow_right"></span>'
-      ],
-      responsive: {
-        0: {
-          items: 1
-        },
-        600: {
-          items: 2
-        },
-        1000: {
-          items: 3
-        },
-        1200: {
-          items: 4
-        }
-      }
-    });
+
+  // Destroy previous instance if exists
+  if (carousel.hasClass('owl-loaded')) {
+    carousel.trigger('destroy.owl.carousel');
+    carousel.removeClass('owl-loaded owl-hidden');
+    carousel.find('.owl-stage-outer').children().unwrap();
   }
+
+  // Always initialize, even with few items
+  carousel.owlCarousel({
+    items: 3, // or 2, or 1, as you wish
+    loop: true,
+    margin: 20,
+    autoplay: true,
+    autoplayTimeout: 5000,
+    autoplayHoverPause: true,
+    nav: true,
+    navText: [
+      '<span class="icon-keyboard_arrow_left"></span>',
+      '<span class="icon-keyboard_arrow_right"></span>'
+    ],
+    responsive: {
+      0: { items: 1 },
+      600: { items: 2 },
+      1000: { items: 3 }
+    }
+  });
 }
 
 // Load team members when page loads
 loadTeamMembers();
   </script>
+
 
   <script src="js/jquery-3.3.1.min.js"></script>
   <script src="js/jquery-migrate-3.0.1.min.js"></script>
