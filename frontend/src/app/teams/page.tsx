@@ -19,7 +19,11 @@ import {
   PencilIcon,
   TrashIcon,
   XMarkIcon,
-  PhotoIcon
+  PhotoIcon,
+  ArrowRightOnRectangleIcon,
+  ChevronDownIcon,
+  UserIcon,
+  Cog6ToothIcon
 } from '@heroicons/react/24/outline';
 
 interface TeamMember {
@@ -37,12 +41,13 @@ interface TeamMember {
 }
 
 export default function Teams() {
-  const { isAuthenticated } = useAuth();
+  const { user, logout, isAuthenticated } = useAuth();
   const router = useRouter();
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
   const [loading, setLoading] = useState(true);
   const [imageLoading, setImageLoading] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const [authChecking, setAuthChecking] = useState(true);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -73,9 +78,31 @@ export default function Teams() {
     fetchTeamMembers();
   }, [isAuthenticated, router]);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Element;
+      if (!target.closest('.user-menu')) {
+        setUserDropdownOpen(false);
+      }
+    };
+
+    if (userDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [userDropdownOpen]);
+
   const fetchTeamMembers = async () => {
     try {
-      const response = await fetch('http://45.56.120.65:8000/api/team-members/');
+      const token = localStorage.getItem('auth_token');
+      const response = await fetch('http://45.56.120.65:8000/api/team-members/', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
       if (response.ok) {
         const data = await response.json();
         setTeamMembers(data);
@@ -139,6 +166,7 @@ export default function Teams() {
     setLoading(true);
 
     try {
+      const token = localStorage.getItem('auth_token');
       const url = editingMember 
         ? `http://45.56.120.65:8000/api/team-members/${editingMember.id}/`
         : 'http://45.56.120.65:8000/api/team-members/';
@@ -149,6 +177,7 @@ export default function Teams() {
         method,
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(formData),
       });
@@ -177,8 +206,12 @@ export default function Teams() {
     if (!confirm('Are you sure you want to delete this team member?')) return;
 
     try {
+      const token = localStorage.getItem('auth_token');
       const response = await fetch(`http://45.56.120.65:8000/api/team-members/${id}/`, {
         method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
       });
 
       if (response.ok) {
@@ -220,6 +253,15 @@ export default function Teams() {
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
+  };
+
+  const handleLogout = () => {
+    logout();
+    router.push('/login');
+  };
+
+  const toggleUserDropdown = () => {
+    setUserDropdownOpen(!userDropdownOpen);
   };
 
   if (authChecking) {
@@ -335,11 +377,31 @@ export default function Teams() {
                 <button className="header-btn">
                   <BellIcon className="w-5 h-5" />
                 </button>
-                <div className="user-menu">
+                <div className="user-menu" onClick={toggleUserDropdown}>
                   <div className="user-avatar">
                     <UserGroupIcon className="w-5 h-5" />
                   </div>
-                  <span className="user-name">Admin User</span>
+                  <span className="user-name">{user?.username || 'Admin User'}</span>
+                  <ChevronDownIcon className="w-5 h-5" />
+                  
+                  {/* User Dropdown */}
+                  <div className={`user-dropdown ${userDropdownOpen ? 'open' : ''}`}>
+                    <button className="dropdown-item">
+                      <UserIcon className="w-4 h-4" />
+                      Profile
+                    </button>
+                    <button className="dropdown-item">
+                      <Cog6ToothIcon className="w-4 h-4" />
+                      Settings
+                    </button>
+                    <button 
+                      onClick={handleLogout}
+                      className="dropdown-item logout"
+                    >
+                      <ArrowRightOnRectangleIcon className="w-4 h-4" />
+                      Logout
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
