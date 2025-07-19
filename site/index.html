@@ -274,7 +274,8 @@ function loadTeamMembers() {
   fetch('http://45.56.120.65:8000/api/team-members/')
     .then(response => response.json())
     .then(data => {
-      renderTeamMembers(data);
+      var members = data.results;
+      renderTeamMembers(members);
     })
     .catch(error => {
       console.error('Error loading team members:', error);
@@ -300,7 +301,7 @@ function renderTeamMembers(teamMembers) {
   carousel.innerHTML = '';
   
   // Filter only active team members and sort by order
-  const activeMembers = teamMembers
+  const activeMembers = teamMembers[0]
     .filter(member => member.active)
     .sort((a, b) => a.order - b.order);
   
