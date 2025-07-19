@@ -5,7 +5,7 @@ from django.db import models
 class TeamMember(models.Model):
     name = models.CharField(max_length=100)
     role = models.CharField(max_length=100)
-    photo = models.ImageField(upload_to='team_photos/')
+    photo = models.CharField(max_length=500, blank=True, null=True)  # Store URL from ImgBB
     email = models.EmailField(blank=True, null=True)
     phone = models.CharField(max_length=20, blank=True, null=True)
     facebook = models.URLField(blank=True, null=True)

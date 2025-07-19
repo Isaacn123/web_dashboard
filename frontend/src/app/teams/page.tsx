@@ -112,7 +112,7 @@ export default function Teams() {
         router.push('/login');
         return;
       } else {
-        console.error('Failed to fetch team members');
+        console.error('Failed to fetch team members:', response.status, response.statusText);
       }
     } catch (error) {
       console.error('Error fetching team members:', error);
@@ -201,7 +201,7 @@ export default function Teams() {
         return;
       } else {
         const errorData = await response.text();
-        console.error('Error:', response.status, errorData);
+        console.error('Error:', response.status, response.statusText, errorData);
         alert(`Error: ${response.status} - ${errorData}`);
       }
     } catch (error) {
