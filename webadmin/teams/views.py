@@ -13,16 +13,16 @@ class TeamMemberViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]  # Temporarily allow all access for testing
 
 # Test view to debug the issue
-@api_view(['GET', 'POST'])
-@permission_classes([AllowAny])
-def test_team_members(request):
-    if request.method == 'GET':
-        members = TeamMember.objects.all()
-        serializer = TeamMemberSerializer(members, many=True)
-        return Response(serializer.data)
-    elif request.method == 'POST':
-        serializer = TeamMemberSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+# @api_view(['GET', 'POST'])
+# @permission_classes([AllowAny])
+# def test_team_members(request):
+#     if request.method == 'GET':
+#         members = TeamMember.objects.all()
+#         serializer = TeamMemberSerializer(members, many=True)
+#         return Response(serializer.data)
+#     elif request.method == 'POST':
+#         serializer = TeamMemberSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
