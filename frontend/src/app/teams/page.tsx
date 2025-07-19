@@ -105,7 +105,7 @@ export default function Teams() {
       });
       if (response.ok) {
         const data = await response.json();
-        setTeamMembers(data);
+        setTeamMembers(Array.isArray(data) ? data : (data.results || []));
       } else if (response.status === 401) {
         // Token expired or invalid
         logout();
@@ -507,7 +507,7 @@ export default function Teams() {
                 <div className="spinner"></div>
                 <span className="ml-2">Loading team members...</span>
               </div>
-            ) : teamMembers.length === 0 ? (
+            ) : !Array.isArray(teamMembers) || teamMembers.length === 0 ? (
               <div className="flex items-center justify-center min-h-[60vh]">
                 <div className="text-center p-8 bg-white rounded-lg shadow-md">
                   <UserGroupIcon style={{ width: '1rem', height: '1rem'}} className="w-12 h-12 text-gray-400 mx-auto mb-4" />
