@@ -106,6 +106,11 @@ export default function Teams() {
       if (response.ok) {
         const data = await response.json();
         setTeamMembers(data);
+      } else if (response.status === 401) {
+        // Token expired or invalid
+        logout();
+        router.push('/login');
+        return;
       } else {
         console.error('Failed to fetch team members');
       }
@@ -189,6 +194,11 @@ export default function Teams() {
         resetForm();
         fetchTeamMembers();
         alert(editingMember ? 'Team member updated successfully!' : 'Team member added successfully!');
+      } else if (response.status === 401) {
+        // Token expired or invalid
+        logout();
+        router.push('/login');
+        return;
       } else {
         const errorData = await response.text();
         console.error('Error:', response.status, errorData);
@@ -217,6 +227,11 @@ export default function Teams() {
       if (response.ok) {
         fetchTeamMembers();
         alert('Team member deleted successfully!');
+      } else if (response.status === 401) {
+        // Token expired or invalid
+        logout();
+        router.push('/login');
+        return;
       } else {
         alert('Failed to delete team member');
       }

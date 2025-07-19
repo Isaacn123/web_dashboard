@@ -91,6 +91,11 @@ export default function ArticlesPage() {
         const data = await response.json();
         const articlesData = data.results || data;
         setArticles(articlesData);
+      } else if (response.status === 401) {
+        // Token expired or invalid
+        logout();
+        router.push('/login');
+        return;
       }
     } catch (error) {
       console.error('Error fetching articles:', error);

@@ -27,7 +27,7 @@ const DynamicCKEditor = dynamic(() => import('../components/ClientCKEditor'), {
 
 
 export default function CreateArticle() {
-  const { isAuthenticated } = useAuth();
+  const { logout, isAuthenticated } = useAuth();
   const router = useRouter();
   const [formData, setFormData] = useState({
     title: '',
@@ -128,6 +128,11 @@ const formattedData = {
 
       if (response.ok) {
         router.push('/');
+      } else if (response.status === 401) {
+        // Token expired or invalid
+        logout();
+        router.push('/login');
+        return;
       } else {
         const errorData = await response.text();
         console.error('Error creating article:', response.status, errorData);
