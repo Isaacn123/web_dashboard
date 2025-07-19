@@ -520,9 +520,9 @@ export default function Teams() {
                 </div>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="team-grid">
                 {(teamMembers || []).map((member) => (
-                  <div key={member.id} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                  <div key={member.id} className="team-card">
                     <div className="relative">
                       {member.photo ? (
                         <Image 
