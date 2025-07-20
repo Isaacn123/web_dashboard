@@ -7,20 +7,10 @@ import { useRouter } from 'next/navigation';
 import {
   ArrowLeftIcon,
   PlusIcon,
-  AcademicCapIcon,
-  Bars3Icon,
-  HomeIcon,
-  DocumentTextIcon,
-  UserGroupIcon,
-  CogIcon,
-  ChartBarIcon,
-  BellIcon,
-  MagnifyingGlassIcon,
-  ArrowRightOnRectangleIcon,
-  ChevronDownIcon,
-  UserIcon,
-  Cog6ToothIcon
+  AcademicCapIcon
 } from '@heroicons/react/24/outline';
+import Sidebar from '../components/Sidebar';
+import Header from '../components/Header';
 
 interface ProgramForm {
   title: string;
@@ -90,147 +80,21 @@ export default function CreateProgramPage() {
     router.push('/login');
   };
 
-  const toggleUserDropdown = () => {
-    setUserDropdownOpen(!userDropdownOpen);
-  };
-
   return (
     <div className="dashboard-layout">
       {/* Sidebar */}
-      <aside className={`sidebar ${sidebarOpen ? 'sidebar-open' : ''}`}>
-        <div className="sidebar-header">
-          <div className="sidebar-logo">
-            <span className="sidebar-logo-text">Admin</span>
-          </div>
-          <button 
-            className="sidebar-close"
-            onClick={() => setSidebarOpen(false)}
-          >
-            <Bars3Icon className="nav-icon" />
-          </button>
-        </div>
-        <nav className="sidebar-nav">
-          <div className="nav-section">
-            <h3 className="nav-section-title">Main</h3>
-            <ul className="nav-list">
-              <li className="nav-item">
-                <Link href="/" className="nav-link">
-                  <HomeIcon className="nav-icon" />
-                  <span>Dashboard</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link href="/articles" className="nav-link">
-                  <DocumentTextIcon className="nav-icon" />
-                  <span>Articles</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link href="/create-article" className="nav-link">
-                  <PlusIcon className="nav-icon" />
-                  <span>Create Article</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link href="/teams" className="nav-link">
-                  <UserGroupIcon className="nav-icon" />
-                  <span>Teams</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link href="/programs" className="nav-link">
-                  <AcademicCapIcon className="nav-icon" style={{width: '1rem', height: '1rem'}} />
-                  <span>Programs</span>
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div className="nav-section">
-            <h3 className="nav-section-title">Management</h3>
-            <ul className="nav-list">
-              <li className="nav-item">
-                <Link href="/users" className="nav-link">
-                  <UserGroupIcon className="nav-icon" />
-                  <span>Users</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link href="/analytics" className="nav-link">
-                  <ChartBarIcon className="nav-icon" />
-                  <span>Analytics</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link href="/settings" className="nav-link">
-                  <CogIcon className="nav-icon" />
-                  <span>Settings</span>
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </nav>
-      </aside>
+      <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} activePage="programs" />
       {/* Main Content */}
       <div className="main-wrapper">
         {/* Header */}
-        <header className="header">
-          <div className="header-content">
-            <div className="header-flex">
-              <div className="header-left">
-                <button 
-                  className="sidebar-toggle"
-                  onClick={() => setSidebarOpen(true)}
-                >
-                  <Bars3Icon className="nav-icon" />
-                </button>
-                <div className="header-search">
-                  <MagnifyingGlassIcon className="search-icon" />
-                  <input 
-                    type="text" 
-                    placeholder="Search programs..." 
-                    className="search-input"
-                  />
-                </div>
-              </div>
-              <div className="header-right">
-                <button className="header-btn">
-                  <BellIcon className="nav-icon" />
-                </button>
-                <div className="user-menu" onClick={toggleUserDropdown}>
-                  <div className="user-avatar">
-                    <UserGroupIcon className="nav-icon" />
-                  </div>
-                  <span className="user-name">{user?.username || 'Admin User'}</span>
-                  <ChevronDownIcon className="nav-icon" />
-                  {/* User Dropdown */}
-                  <div className={`user-dropdown ${userDropdownOpen ? 'open' : ''}`}>
-                    <button
-                      className="dropdown-item"
-                      onClick={() => {
-                        setUserDropdownOpen(false);
-                        router.push('/profile');
-                      }}
-                    >
-                      <UserIcon className="nav-icon" />
-                      Profile
-                    </button>
-                    <button className="dropdown-item">
-                      <Cog6ToothIcon className="nav-icon" />
-                      Settings
-                    </button>
-                    <button 
-                      onClick={handleLogout}
-                      className="dropdown-item logout"
-                    >
-                      <ArrowRightOnRectangleIcon className="nav-icon" />
-                      Logout
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </header>
+        <Header
+          user={user}
+          setSidebarOpen={setSidebarOpen}
+          userDropdownOpen={userDropdownOpen}
+          setUserDropdownOpen={setUserDropdownOpen}
+          handleLogout={handleLogout}
+          router={router}
+        />
         {/* Main Content Area */}
         <main className="main-content">
           <div className="max-w-4xl mx-auto py-8 px-4">

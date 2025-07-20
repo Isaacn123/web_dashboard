@@ -10,7 +10,10 @@ import {
   TrashIcon,
   AcademicCapIcon,
   CheckCircleIcon,
-  ClockIcon
+  ClockIcon,
+  MagnifyingGlassIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon
 } from '@heroicons/react/24/outline';
 import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
@@ -24,6 +27,13 @@ interface Program {
   active: boolean;
   created_at: string;
   updated_at: string;
+}
+
+interface ApiResponse {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: Program[];
 }
 
 export default function ProgramsPage() {
@@ -44,86 +54,43 @@ export default function ProgramsPage() {
     inactive: 0
   });
 
+  // API state
+  const [searchTerm, setSearchTerm] = useState('');
+  const [ordering, setOrdering] = useState('order');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
+  const pageSize = 10;
+
   const fetchPrograms = useCallback(async () => {
     try {
-      const response = await fetch('http://45.56.120.65:8000/api/programs/');
+      const params = new URLSearchParams({
+        page: currentPage.toString(),
+        page_size: pageSize.toString(),
+        ordering: ordering,
+        ...(searchTerm && { search: searchTerm })
+      });
+
+      const response = await fetch(`http://45.56.120.65:8000/api/programs/?${params}`);
       if (response.ok) {
-        const data = await response.json();
-        const programsData = data.results || data;
-        setPrograms(programsData);
+        const data: ApiResponse = await response.json();
+        setPrograms(data.results);
+        setTotalCount(data.count);
+        setTotalPages(Math.ceil(data.count / pageSize));
         
         // Calculate stats
         setStats({
-          total: programsData.length,
-          active: programsData.filter((p: Program) => p.active).length,
-          inactive: programsData.filter((p: Program) => !p.active).length
+          total: data.count,
+          active: data.results.filter((p: Program) => p.active).length,
+          inactive: data.results.filter((p: Program) => !p.active).length
         });
       }
     } catch (error) {
       console.error('Error fetching programs:', error);
-      // For now, use mock data until backend is ready
-      const mockPrograms = [
-        {
-          id: 1,
-          title: "BASKETBALL TRAINING PROGRAMS",
-          description: "Off the Bench Basketball Academy provides a range of programs, including skills training for youth, prep and skills camps, all-girls camps, youth leagues, 3X3 challenges, performance fitness, and an adult basketball program.",
-          category: "Training",
-          order: 1,
-          active: true,
-          created_at: "2024-01-01",
-          updated_at: "2024-01-01"
-        },
-        {
-          id: 2,
-          title: "INCLUSIVE BASKETBALL PROGRAMS",
-          description: "Tailored training for children with special needs, creating an adaptive environment that fosters social interaction and athletic engagement.",
-          category: "Inclusive",
-          order: 2,
-          active: true,
-          created_at: "2024-01-01",
-          updated_at: "2024-01-01"
-        },
-        {
-          id: 3,
-          title: "CAMPS & CLINICS",
-          description: "Beyond sports skills, the academy integrates life skills training, including leadership, discipline, and teamwork, ensuring the holistic development of young athletes.",
-          category: "Development",
-          order: 3,
-          active: true,
-          created_at: "2024-01-01",
-          updated_at: "2024-01-01"
-        },
-        {
-          id: 4,
-          title: "PERSONAL DEVELOPMENT PROGRAMS",
-          description: "Seasonal camps during school holidays offering intensive basketball training, mentorship, and team-building activities",
-          category: "Personal",
-          order: 4,
-          active: true,
-          created_at: "2024-01-01",
-          updated_at: "2024-01-01"
-        },
-        {
-          id: 5,
-          title: "TOURNAMENTS & COMPETITIONS",
-          description: "Regular tournaments and competitive events to showcase skills and foster healthy competition among participants.",
-          category: "Competition",
-          order: 5,
-          active: true,
-          created_at: "2024-01-01",
-          updated_at: "2024-01-01"
-        }
-      ];
-      setPrograms(mockPrograms);
-      setStats({
-        total: mockPrograms.length,
-        active: mockPrograms.filter(p => p.active).length,
-        inactive: mockPrograms.filter(p => !p.active).length
-      });
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [currentPage, ordering, searchTerm]);
 
   useEffect(() => {
     // Check if user is authenticated
@@ -173,19 +140,13 @@ export default function ProgramsPage() {
       });
       
       if (response.ok) {
-        setPrograms(programs.filter(program => program.id !== programToDelete.id));
         setDeleteModalOpen(false);
         setProgramToDelete(null);
         setDeleteSuccess(true);
         setTimeout(() => setDeleteSuccess(false), 3000);
         
-        // Update stats
-        const updatedPrograms = programs.filter(program => program.id !== programToDelete.id);
-        setStats({
-          total: updatedPrograms.length,
-          active: updatedPrograms.filter((p: Program) => p.active).length,
-          inactive: updatedPrograms.filter((p: Program) => !p.active).length
-        });
+        // Refresh the programs list
+        fetchPrograms();
       } else {
         console.error('Failed to delete program');
       }
@@ -201,6 +162,21 @@ export default function ProgramsPage() {
     setProgramToDelete(null);
   };
 
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    setCurrentPage(1);
+    fetchPrograms();
+  };
+
+  const handleOrderingChange = (newOrdering: string) => {
+    setOrdering(newOrdering);
+    setCurrentPage(1);
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
   // Show loading screen while checking authentication
   if (loading || authChecking) {
     return (
@@ -208,7 +184,7 @@ export default function ProgramsPage() {
         <div className="text-center">
           <div className="loading-spinner">
             <div className="spinner"></div>
-            <p className="mt-4 text-gray-600">Checking authentication...</p>
+            <p className="mt-4 text-gray-600">Loading programs...</p>
           </div>
         </div>
       </div>
@@ -292,77 +268,166 @@ export default function ProgramsPage() {
             </div>
           </div>
 
+          {/* Filters and Search */}
+          <div className="content-card mb-6">
+            <div className="card-header">
+              <h2 className="card-title">Filters</h2>
+            </div>
+            <div className="card-content">
+              <div className="filters-grid">
+                {/* Search */}
+                <form onSubmit={handleSearch} className="search-form">
+                  <div className="search-input-group">
+                    <MagnifyingGlassIcon className="search-icon" />
+                    <input
+                      type="text"
+                      placeholder="Search programs..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="search-input"
+                    />
+                    <button type="submit" className="btn btn-primary">
+                      Search
+                    </button>
+                  </div>
+                </form>
+
+                {/* Ordering */}
+                <div className="ordering-controls">
+                  <label className="form-label">Sort by:</label>
+                  <select
+                    value={ordering}
+                    onChange={(e) => handleOrderingChange(e.target.value)}
+                    className="form-select"
+                  >
+                    <option value="order">Display Order</option>
+                    <option value="title">Title</option>
+                    <option value="created_at">Date Created</option>
+                    <option value="-created_at">Date Created (Newest)</option>
+                    <option value="category">Category</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Programs List */}
           <div className="content-card">
             <div className="card-header">
               <h2 className="card-title">Programs List</h2>
+              <div className="card-header-actions">
+                <span className="text-sm text-gray-600">
+                  Showing {programs.length} of {totalCount} programs
+                </span>
+              </div>
             </div>
             <div className="card-content">
               {programs.length === 0 ? (
                 <div className="empty-state">
                   <AcademicCapIcon className="empty-icon" style={{width: '1rem', height: '1rem'}} />
-                  <h3 className="empty-title">No programs yet</h3>
+                  <h3 className="empty-title">No programs found</h3>
                   <p className="empty-description">
-                    Get started by creating your first program.
+                    {searchTerm ? 'Try adjusting your search terms.' : 'Get started by creating your first program.'}
                   </p>
-                  <Link href="/create-program" className="btn btn-primary">
-                    <PlusIcon className="btn-icon" />
-                    Create Program
-                  </Link>
+                  {!searchTerm && (
+                    <Link href="/create-program" className="btn btn-primary">
+                      <PlusIcon className="btn-icon" />
+                      Create Program
+                    </Link>
+                  )}
                 </div>
               ) : (
-                <div className="table-container">
-                  <table className="data-table">
-                    <thead>
-                      <tr>
-                        <th>Order</th>
-                        <th>Title</th>
-                        <th>Category</th>
-                        <th>Status</th>
-                        <th>Created</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {programs.map((program) => (
-                        <tr key={program.id}>
-                          <td>{program.order}</td>
-                          <td>
-                            <div className="program-title">
-                              <strong>{program.title}</strong>
-                              <p className="program-description">{program.description}</p>
-                            </div>
-                          </td>
-                          <td>
-                            <span className="badge badge-secondary">{program.category}</span>
-                          </td>
-                          <td>
-                            <span className={`badge ${program.active ? 'badge-success' : 'badge-warning'}`}>
-                              {program.active ? 'Active' : 'Inactive'}
-                            </span>
-                          </td>
-                          <td>{new Date(program.created_at).toLocaleDateString()}</td>
-                          <td>
-                            <div className="action-buttons">
-                              <Link 
-                                href={`/edit-program/${program.id}`}
-                                className="btn btn-sm btn-secondary"
-                              >
-                                <PencilIcon className="btn-icon" style={{width: '1rem', height: '1rem'}} />
-                              </Link>
-                              <button
-                                onClick={() => handleDeleteClick(program)}
-                                className="btn btn-sm btn-danger"
-                              >
-                                <TrashIcon className="btn-icon" style={{width: '1rem', height: '1rem'}} />
-                              </button>
-                            </div>
-                          </td>
+                <>
+                  <div className="table-container">
+                    <table className="data-table">
+                      <thead>
+                        <tr>
+                          <th>Order</th>
+                          <th>Title</th>
+                          <th>Category</th>
+                          <th>Status</th>
+                          <th>Created</th>
+                          <th>Actions</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                      </thead>
+                      <tbody>
+                        {programs.map((program) => (
+                          <tr key={program.id}>
+                            <td>{program.order}</td>
+                            <td>
+                              <div className="program-title">
+                                <strong>{program.title}</strong>
+                                <p className="program-description">{program.description}</p>
+                              </div>
+                            </td>
+                            <td>
+                              <span className="badge badge-secondary">{program.category}</span>
+                            </td>
+                            <td>
+                              <span className={`badge ${program.active ? 'badge-success' : 'badge-warning'}`}>
+                                {program.active ? 'Active' : 'Inactive'}
+                              </span>
+                            </td>
+                            <td>{new Date(program.created_at).toLocaleDateString()}</td>
+                            <td>
+                              <div className="action-buttons">
+                                <Link 
+                                  href={`/edit-program/${program.id}`}
+                                  className="btn btn-sm btn-secondary"
+                                >
+                                  <PencilIcon className="btn-icon" style={{width: '1rem', height: '1rem'}} />
+                                </Link>
+                                <button
+                                  onClick={() => handleDeleteClick(program)}
+                                  className="btn btn-sm btn-danger"
+                                >
+                                  <TrashIcon className="btn-icon" style={{width: '1rem', height: '1rem'}} />
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+
+                  {/* Pagination */}
+                  {totalPages > 1 && (
+                    <div className="pagination-container">
+                      <div className="pagination">
+                        <button
+                          onClick={() => handlePageChange(currentPage - 1)}
+                          disabled={currentPage === 1}
+                          className="pagination-btn"
+                        >
+                          <ChevronLeftIcon className="pagination-icon" />
+                          Previous
+                        </button>
+                        
+                        <div className="pagination-pages">
+                          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                            <button
+                              key={page}
+                              onClick={() => handlePageChange(page)}
+                              className={`pagination-page ${currentPage === page ? 'active' : ''}`}
+                            >
+                              {page}
+                            </button>
+                          ))}
+                        </div>
+
+                        <button
+                          onClick={() => handlePageChange(currentPage + 1)}
+                          disabled={currentPage === totalPages}
+                          className="pagination-btn"
+                        >
+                          Next
+                          <ChevronRightIcon className="pagination-icon" />
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </>
               )}
             </div>
           </div>

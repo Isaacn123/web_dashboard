@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'articles',
     'users',
     'site_settings',
-    'teams'
+    'teams',
+    'programs'
 ]
 
 MIDDLEWARE = [
