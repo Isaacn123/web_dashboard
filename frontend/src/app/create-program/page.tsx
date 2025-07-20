@@ -293,8 +293,8 @@ export default function CreateProgramPage() {
                       name="description"
                       value={formData.description}
                       onChange={handleInputChange}
-                      className="form-textarea"
-                      rows={4}
+                      className="form-textarea form-input"
+                      rows={12}
                       placeholder="Enter a detailed description of the program..."
                       required
                     />
