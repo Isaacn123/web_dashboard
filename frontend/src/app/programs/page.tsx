@@ -8,18 +8,6 @@ import {
   PlusIcon, 
   PencilIcon, 
   TrashIcon,
-  Bars3Icon,
-  HomeIcon,
-  DocumentTextIcon,
-  UserGroupIcon,
-  CogIcon,
-  ChartBarIcon,
-  BellIcon,
-  MagnifyingGlassIcon,
-  ArrowRightOnRectangleIcon,
-  ChevronDownIcon,
-  UserIcon,
-  Cog6ToothIcon,
   AcademicCapIcon,
   CheckCircleIcon,
   ClockIcon
@@ -168,10 +156,6 @@ export default function ProgramsPage() {
   const handleLogout = () => {
     logout();
     router.push('/login');
-  };
-
-  const toggleUserDropdown = () => {
-    setUserDropdownOpen(!userDropdownOpen);
   };
 
   const handleDeleteClick = (program: Program) => {
