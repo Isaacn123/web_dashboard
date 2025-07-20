@@ -1099,7 +1099,7 @@ body {
 
 .setting-input,
 .setting-textarea,
-.setting-select {
+.setting-select,.form-select,.form-textarea {
   width: 300px;
   padding: 0.75rem;
   border: 1px solid #d1d5db;
@@ -1111,13 +1111,13 @@ body {
 
 .setting-input:focus,
 .setting-textarea:focus,
-.setting-select:focus {
+.setting-select:focus,.form-select:focus,.form-textarea:focus  {
   outline: none;
   border-color: #2563eb;
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
-.setting-textarea {
+.setting-textarea,.form-textarea {
   resize: vertical;
   min-height: 80px;
 }
@@ -1341,6 +1341,10 @@ body {
   font-weight: 500;
   color: #111827;
   margin-bottom: 0.5rem;
+}
+
+.form-select{
+
 }
 
 .form-input {
