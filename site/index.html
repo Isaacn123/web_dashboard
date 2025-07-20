@@ -45,6 +45,164 @@ color: #fff !important;
 background-color: rgb(37, 134, 166) !important;
 border-color:rgb(104, 139, 174) !important
 }
+
+/* Ongoing Programs Section Styles */
+.ongoing-programs-section {
+  background: #fff;
+  padding: 60px 0;
+}
+
+.programs-header {
+  margin-bottom: 40px;
+}
+
+.programs-image {
+  text-align: center;
+}
+
+.programs-image {
+  width:100%;
+  position: relative;
+  display: inline-block;
+  margin-left: -30px;
+}
+
+.programs-image::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  right: -20px;
+  bottom: -20px;
+  background: white;
+  clip-path: polygon(15% 0, 100% 0, 85% 100%, 0% 100%);
+  z-index: -1;
+}
+
+.programs-image img {
+  width: 100%;
+  height: 460px;
+  object-fit: cover;
+  display: block;
+  clip-path: polygon(15% 0, 100% 0, 85% 100%, 0% 100%);
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .programs-image::before {
+    display: none; /* Remove the curved background on mobile */
+  }
+  
+  .programs-image img {
+    clip-path: none; /* Remove the angular cut on mobile */
+    border-radius: 8px; /* Add rounded corners instead */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1); /* Add subtle shadow */
+  }
+  
+  .programs-header .row {
+    flex-direction: column;
+  }
+  
+  .programs-title {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .programs-quote {
+    text-align: center;
+  }
+}
+
+.programs-title {
+  position: relative;
+  display: inline-block;
+}
+
+.programs-title .heading {
+  font-size: 48px;
+  font-weight: 700;
+  color: #1a365d;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.title-decoration {
+  height: 4px;
+  background: linear-gradient(90deg, #d4af37, #1a365d);
+  margin: 10px auto 0;
+  width: 80px;
+}
+
+.programs-quote {
+  margin-bottom: 20px;
+}
+
+.programs-quote p {
+  font-size: 18px;
+  color: #666;
+  font-style: italic;
+  margin: 0;
+  text-align: center;
+}
+
+.programs-content {
+  margin-top: 40px;
+}
+
+.program-column {
+  padding: 20px 15px;
+  text-align: left;
+  height: 100%;
+  padding-left: 25px;
+  position: relative;
+}
+
+.program-column::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 15px;
+  bottom: 15px;
+  width: 3px;
+  background: linear-gradient(to bottom, #d4af37, #715923);
+  border-radius: 2px;
+}
+
+.program-category {
+  font-size: 26px;
+  font-weight: 700;
+  color: #1a365d;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+  line-height: 1.4;
+}
+
+.program-text {
+  font-size: 13px;
+  color: #555;
+  line-height: 1.6;
+  margin: 0;
+  text-align: justify;
+}
+
+.ongoing-programs-section .container{
+  width: 100% !important;
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+  max-width: none !important;
+}
+
+.ongoing-programs-section .row {
+  justify-content: center !important;
+}
+
+.ongoing-programs-section .program-column {
+  text-align: center;
+}
   </style>
 
 
@@ -142,6 +300,70 @@ border-color:rgb(104, 139, 174) !important
       </div>
     </div>
 
+    <!-- Ongoing Programs Section -->
+    <div class="site-section ongoing-programs-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <div class="programs-header">
+              <div class="row align-items-center">
+                <div class="col-lg-3">
+                  <div class="programs-title">
+                    <h2 class="heading">ONGOING PROGRAMS</h2>
+                    <div class="title-decoration"></div>
+                  </div>
+                </div>
+                <div class="col-lg-8">
+                  <div class="programs-quote">
+                    <p>"Empowering Future Athletes through Inclusive Basketball Programs"</p>
+                  </div>
+                  <div class="programs-image">
+                    <img src="images/prgrams_img.png" alt="Off the Bench Team" class="img-fluid">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="row programs-content">
+          <div class="col-lg-2 col-md-4 col-sm-6 mb-4">
+            <div class="program-column">
+              <h2 class="program-category">BASKETBALL TRAINING PROGRAMS</h2>
+              <p class="program-text">Off the Bench Basketball Academy provides a range of programs, including skills training for youth, prep and skills camps, all-girls camps, youth leagues, 3X3 challenges, performance fitness, and an adult basketball program.</p>
+            </div>
+          </div>
+          
+          <div class="col-lg-2 col-md-4 col-sm-6 mb-4">
+            <div class="program-column">
+              <h2 class="program-category">INCLUSIVE BASKETBALL PROGRAMS</h2>
+              <p class="program-text">Tailored training for children with special needs, creating an adaptive environment that fosters social interaction and athletic engagement.</p>
+            </div>
+          </div>
+          
+          <div class="col-lg-2 col-md-4 col-sm-6 mb-4">
+            <div class="program-column">
+              <h2 class="program-category">CAMPS & CLINICS</h2>
+              <p class="program-text">Beyond sports skills, the academy integrates life skills training, including leadership, discipline, and teamwork, ensuring the holistic development of young athletes.</p>
+            </div>
+          </div>
+          
+          <div class="col-lg-2 col-md-4 col-sm-6 mb-4">
+            <div class="program-column">
+              <h2 class="program-category">PERSONAL DEVELOPMENT PROGRAMS</h2>
+              <p class="program-text">Seasonal camps during school holidays offering intensive basketball training, mentorship, and team-building activities</p>
+            </div>
+          </div>
+          
+          <div class="col-lg-2 col-md-4 col-sm-6 mb-4">
+            <div class="program-column">
+              <h2 class="program-category">TOURNAMENTS & COMPETITIONS</h2>
+              <p class="program-text">Regular tournaments and competitive events to showcase skills and foster healthy competition among participants.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <footer class="footer-section">
       <div class="container">
@@ -366,6 +588,8 @@ function renderTeamMembers(teamMembers) {
 
 // Load team members when page loads
 loadTeamMembers();
+
+
   </script>
 
 
