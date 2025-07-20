@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { useAuth } from '../contexts/AuthContext';
 import { useRouter } from 'next/navigation';
@@ -54,35 +54,7 @@ export default function ProgramsPage() {
     inactive: 0
   });
 
-  useEffect(() => {
-    // Check if user is authenticated
-    if (!isAuthenticated) {
-      router.push('/login');
-      return;
-    }
-    
-    setAuthChecking(false);
-    fetchPrograms();
-  }, [isAuthenticated, router]);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as Element;
-      if (!target.closest('.user-menu')) {
-        setUserDropdownOpen(false);
-      }
-    };
-
-    if (userDropdownOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [userDropdownOpen]);
-
-  const fetchPrograms = async () => {
+  const fetchPrograms = useCallback(async () => {
     try {
       const response = await fetch('http://45.56.120.65:8000/api/programs/');
       if (response.ok) {
@@ -161,7 +133,35 @@ export default function ProgramsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    // Check if user is authenticated
+    if (!isAuthenticated) {
+      router.push('/login');
+      return;
+    }
+    
+    setAuthChecking(false);
+    fetchPrograms();
+  }, [isAuthenticated, router, fetchPrograms]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Element;
+      if (!target.closest('.user-menu')) {
+        setUserDropdownOpen(false);
+      }
+    };
+
+    if (userDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [userDropdownOpen]);
 
   const handleLogout = () => {
     logout();
@@ -518,7 +518,7 @@ export default function ProgramsPage() {
               <h3 className="modal-title">Delete Program</h3>
             </div>
             <div className="modal-content">
-              <p>Are you sure you want to delete "{programToDelete?.title}"?</p>
+              <p>Are you sure you want to delete &quot;{programToDelete?.title}&quot;?</p>
               <p className="text-sm text-gray-600">This action cannot be undone.</p>
             </div>
             <div className="modal-actions">
