@@ -4,7 +4,7 @@ from .views import OnGoingProgramsViewSet
 
 
 router = DefaultRouter()
-router.register(r'ongoing_programs', OnGoingProgramsViewSet, basename='ongoing_programs')
+router.register(r'programs', OnGoingProgramsViewSet, basename='programs')
 urlpatterns = [
     path('', include(router.urls)),
 ]
