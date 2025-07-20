@@ -22,7 +22,8 @@ import {
   ArrowRightOnRectangleIcon,
   ChevronDownIcon,
   UserIcon,
-  Cog6ToothIcon
+  Cog6ToothIcon,
+  AcademicCapIcon
 } from '@heroicons/react/24/outline';
 
 interface Article {
@@ -215,6 +216,12 @@ export default function AdminDashboard() {
                 <Link href="/teams" className="nav-link">
                   <UserGroupIcon className="nav-icon" />
                   <span>Teams</span>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link href="/programs" className="nav-link">
+                  <AcademicCapIcon className="nav-icon" style={{width: '1rem', height: '1rem'}} />
+                  <span>Programs</span>
                 </Link>
               </li>
             </ul>
