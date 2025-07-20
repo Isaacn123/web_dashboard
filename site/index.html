@@ -35,6 +35,33 @@
       display: block;
     }
 
+    /* Responsive article images */
+    @media (max-width: 768px) {
+      .custom-media .img img {
+        height: 300px !important;
+        object-fit: cover;
+      }
+      
+      .custom-media .text h3 {
+        font-size: 18px !important;
+        line-height: 1.3;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        max-width: 100%;
+      }
+      
+      .custom-media .text p {
+        font-size: 14px !important;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        max-width: 100%;
+      }
+      
+      .custom-media .text {
+        padding: 0 10px;
+      }
+    }
+
     .btn-outline-primary{
       color: rgb(37, 134, 166) !important;
       border-color:rgb(104, 139, 174) !important; 
@@ -177,6 +204,84 @@ border-color:rgb(104, 139, 174) !important
   letter-spacing: 1px;
   margin-bottom: 15px;
   line-height: 1.4;
+}
+
+/* Responsive program category titles for all screen sizes */
+.program-category {
+  font-size: 26px;
+  font-weight: 700;
+  color: #1a365d;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+  line-height: 1.4;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+
+.program-text {
+  font-size: 13px;
+  color: #555;
+  line-height: 1.6;
+  margin: 0;
+  text-align: justify;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+
+/* Responsive adjustments for different screen sizes */
+@media (max-width: 1200px) {
+  .program-category {
+    font-size: 22px !important;
+  }
+}
+
+@media (max-width: 992px) {
+  .program-category {
+    font-size: 20px !important;
+  }
+  
+  .program-text {
+    font-size: 12px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .program-category {
+    font-size: 18px !important;
+    line-height: 1.3 !important;
+  }
+  
+  .program-text {
+    font-size: 12px !important;
+    line-height: 1.4 !important;
+  }
+  
+  .program-column {
+    margin-bottom: 20px !important;
+    padding: 15px 10px !important;
+  }
+  
+  .ongoing-programs-section .row {
+    justify-content: center !important;
+  }
+  
+  .ongoing-programs-section .col-lg-2 {
+    width: 100% !important;
+    margin-bottom: 15px !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .program-category {
+    font-size: 16px !important;
+  }
+  
+  .program-text {
+    font-size: 11px !important;
+  }
 }
 
 .program-text {
