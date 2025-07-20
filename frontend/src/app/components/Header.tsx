@@ -1,14 +1,17 @@
 import { Bars3Icon, BellIcon, MagnifyingGlassIcon, UserGroupIcon, ChevronDownIcon, UserIcon, Cog6ToothIcon, ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline';
 import React from 'react';
-import { AppRouterInstance } from 'next/navigation';
+
+interface User {
+  username?: string;
+}
 
 interface HeaderProps {
-  user: unknown;
+  user: User | null;
   setSidebarOpen: (open: boolean) => void;
   userDropdownOpen: boolean;
   setUserDropdownOpen: (open: boolean) => void;
   handleLogout: () => void;
-  router: AppRouterInstance;
+  router: any;
 }
 
 const Header: React.FC<HeaderProps> = ({ user, setSidebarOpen, userDropdownOpen, setUserDropdownOpen, handleLogout, router }) => {
@@ -40,7 +43,7 @@ const Header: React.FC<HeaderProps> = ({ user, setSidebarOpen, userDropdownOpen,
               <div className="user-avatar">
                 <UserGroupIcon className="nav-icon" />
               </div>
-              <span className="user-name">{(user as any)?.username || 'Admin User'}</span>
+              <span className="user-name">{user?.username || 'Admin User'}</span>
               <ChevronDownIcon className="nav-icon" />
               {/* User Dropdown */}
               <div className={`user-dropdown ${userDropdownOpen ? 'open' : ''}`}>
