@@ -224,7 +224,6 @@ export default function ProgramsPage() {
         {/* Header */}
         <Header
           user={user}
-          sidebarOpen={sidebarOpen}
           setSidebarOpen={setSidebarOpen}
           userDropdownOpen={userDropdownOpen}
           setUserDropdownOpen={setUserDropdownOpen}

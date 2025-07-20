@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { useAuth } from '../contexts/AuthContext';
 import { useRouter } from 'next/navigation';
@@ -56,35 +56,7 @@ export default function ArticlesPage() {
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [deleteSuccess, setDeleteSuccess] = useState(false);
 
-  useEffect(() => {
-    // Check if user is authenticated
-    if (!isAuthenticated) {
-      router.push('/login');
-      return;
-    }
-    
-    setAuthChecking(false);
-    fetchArticles();
-  }, [isAuthenticated, router]);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as Element;
-      if (!target.closest('.user-menu')) {
-        setUserDropdownOpen(false);
-      }
-    };
-
-    if (userDropdownOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [userDropdownOpen]);
-
-  const fetchArticles = async () => {
+  const fetchArticles = useCallback(async () => {
     try {
       const response = await fetch('http://45.56.120.65:8000/api/articles/');
       if (response.ok) {
@@ -102,7 +74,35 @@ export default function ArticlesPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [logout, router]);
+
+  useEffect(() => {
+    // Check if user is authenticated
+    if (!isAuthenticated) {
+      router.push('/login');
+      return;
+    }
+    
+    setAuthChecking(false);
+    fetchArticles();
+  }, [isAuthenticated, router, fetchArticles]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Element;
+      if (!target.closest('.user-menu')) {
+        setUserDropdownOpen(false);
+      }
+    };
+
+    if (userDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [userDropdownOpen]);
 
   const filteredArticles = articles.filter(article => {
     const matchesSearch = article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
