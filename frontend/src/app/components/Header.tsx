@@ -1,5 +1,6 @@
 import { Bars3Icon, BellIcon, MagnifyingGlassIcon, UserGroupIcon, ChevronDownIcon, UserIcon, Cog6ToothIcon, ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline';
 import React from 'react';
+import { useRouter } from 'next/navigation';
 
 interface User {
   username?: string;
@@ -11,7 +12,7 @@ interface HeaderProps {
   userDropdownOpen: boolean;
   setUserDropdownOpen: (open: boolean) => void;
   handleLogout: () => void;
-  router: any;
+  router: ReturnType<typeof useRouter>;
 }
 
 const Header: React.FC<HeaderProps> = ({ user, setSidebarOpen, userDropdownOpen, setUserDropdownOpen, handleLogout, router }) => {
