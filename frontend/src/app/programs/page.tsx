@@ -338,57 +338,53 @@ export default function ProgramsPage() {
                 </div>
               ) : (
                 <>
-                  <div className="table-container">
-                    <table className="data-table">
-                      <thead>
-                        <tr>
-                          <th>Order</th>
-                          <th>Title</th>
-                          <th>Category</th>
-                          <th>Status</th>
-                          <th>Created</th>
-                          <th>Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {programs.map((program) => (
-                          <tr key={program.id}>
-                            <td>{program.order}</td>
-                            <td>
-                              <div className="program-title">
-                                <strong>{program.title}</strong>
-                                <p className="program-description">{program.description}</p>
-                              </div>
-                            </td>
-                            <td>
-                              <span className="badge badge-secondary">{program.category}</span>
-                            </td>
-                            <td>
-                              <span className={`badge ${program.active ? 'badge-success' : 'badge-warning'}`}>
+                  <div className="programs-grid">
+                    {programs.map((program, index) => (
+                      <div key={program.id} className="program-card">
+                        <div className="program-card-header">
+                          <div className="program-card-title">
+                            <h3 className="program-title">{program.title}</h3>
+                            <div className="program-meta">
+                              <span className="program-order">
+                                Order: {program.order || index + 1}
+                              </span>
+                              <span className={`program-status ${program.active ? 'active' : 'inactive'}`}>
                                 {program.active ? 'Active' : 'Inactive'}
                               </span>
-                            </td>
-                            <td>{new Date(program.created_at).toLocaleDateString()}</td>
-                            <td>
-                              <div className="action-buttons">
-                                <Link 
-                                  href={`/edit-program/${program.id}`}
-                                  className="btn btn-sm btn-secondary"
-                                >
-                                  <PencilIcon className="btn-icon" style={{width: '1rem', height: '1rem'}} />
-                                </Link>
-                                <button
-                                  onClick={() => handleDeleteClick(program)}
-                                  className="btn btn-sm btn-danger"
-                                >
-                                  <TrashIcon className="btn-icon" style={{width: '1rem', height: '1rem'}} />
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                            </div>
+                          </div>
+                          <div className="program-card-actions">
+                            <Link 
+                              href={`/edit-program/${program.id}`}
+                              className="btn btn-sm btn-secondary"
+                              title="Edit Program"
+                            >
+                              <PencilIcon className="btn-icon" style={{width: '1rem', height: '1rem'}} />
+                            </Link>
+                            <button
+                              onClick={() => handleDeleteClick(program)}
+                              className="btn btn-sm btn-danger"
+                              title="Delete Program"
+                            >
+                              <TrashIcon className="btn-icon" style={{width: '1rem', height: '1rem'}} />
+                            </button>
+                          </div>
+                        </div>
+                        
+                        <div className="program-card-content">
+                          <p className="program-description">{program.description}</p>
+                          
+                          <div className="program-card-footer">
+                            <div className="program-category">
+                              <span className="badge badge-secondary">{program.category}</span>
+                            </div>
+                            <div className="program-date">
+                              Created: {new Date(program.created_at).toLocaleDateString()}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
 
                   {/* Pagination */}
