@@ -51,11 +51,6 @@ export default function EditProgramPage() {
     active: true
   });
 
-  if (!isAuthenticated) {
-    router.push('/login');
-    return null;
-  }
-
   // Fetch program data
   useEffect(() => {
     const fetchProgram = async () => {
@@ -85,6 +80,11 @@ export default function EditProgramPage() {
       fetchProgram();
     }
   }, [programId]);
+
+  if (!isAuthenticated) {
+    router.push('/login');
+    return null;
+  }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
